@@ -1,0 +1,2 @@
+# Ce fichier permet de conserver le dossier data/output/ dans Git
+# Les fichiers PDF générés dans ce dossier sont ignorés par .gitignore

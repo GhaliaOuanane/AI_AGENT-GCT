@@ -1,0 +1,2 @@
+# Ce fichier permet de conserver le dossier data/input/ dans Git
+# Les fichiers PDF dans ce dossier sont ignorés par .gitignore
