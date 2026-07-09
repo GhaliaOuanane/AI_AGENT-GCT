@@ -2,7 +2,8 @@ from pathlib import Path
 
 from pdf_reader import open_pdf
 from pdf_writer import write_selected_pages
-from page_selector_debug import select_target_pages_debug as select_target_pages
+from page_selector import select_target_pages
+from column_extractor import extract_all_columns
 
 
 def _find_input_pdf() -> Path:
@@ -55,6 +56,19 @@ def main():
     write_selected_pages(selected_pages, output_path)
     print("\nPDF créé avec succès.")
     print(f"Fichier enregistré : {output_path}")
+
+    # Extraction des 2ᵉ colonnes
+    print("\n" + "=" * 60)
+    print("EXTRACTION DES 2ᵉ COLONNES")
+    print("=" * 60)
+    
+    extract_all_columns(
+        reader=reader,
+        pdf_path=input_path,
+        selected_pages=selected_pages,
+        output_dir="data/output",
+        poppler_path=poppler_path,
+    )
 
 
 if __name__ == "__main__":
