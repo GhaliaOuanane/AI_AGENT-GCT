@@ -52,7 +52,12 @@ def _matches_header_model_1(text: str) -> bool:
     - Spécification
     - Proposition
     
-    Retourne True si les trois colonnes sont présentes.
+    Retourne True si AU MOINS 2 des 3 colonnes sont présentes.
+    
+    Rationale : L'OCR peut oublier ou mal reconnaître une colonne.
+    Si 2 colonnes sur 3 sont présentes (en particulier "Spécification" + "Proposition"),
+    c'est hautement probablement une page cible de tableau.
+    
     Tolère les variations OCR et la casse.
     """
     # Recherche de "designation" (ou variations OCR)
@@ -79,7 +84,9 @@ def _matches_header_model_1(text: str) -> bool:
         re.IGNORECASE
     ))
     
-    return has_designation and has_specification and has_proposition
+    # Accepter si AU MOINS 2 colonnes détectées
+    column_count = sum([has_designation, has_specification, has_proposition])
+    return column_count >= 2
 
 
 def _matches_header_model_2(text: str) -> bool:
@@ -133,27 +140,52 @@ def _looks_like_table_content(text: str) -> bool:
     """
     Détecte le contenu de tableau (pages suivant un en-tête détecté).
     
-    Critères simples :
-    - Présence de mots liés aux spécifications techniques
-    - Présence de valeurs numériques
-    - Format tabulaire (lignes avec plusieurs tokens)
+    TRÈS STRICT pour éviter les faux positifs :
+    - Doit être court (≤8 lignes) ET avoir des nombres
+    - OU doit contenir EXPLICITEMENT les mots-clés de colonnes cibles
+      * Model 1: "specification" ou "designation"
+      * Model 2: "caracteristiques" ou "propositions" (ou leurs variantes)
     
-    Aucune logique d'exclusion.
+    Ne capture PAS les brochures, manuels, ou documents administratifs.
     """
-    # Vérifier la présence de contenu technique/tabulaire
-    has_technical_content = bool(re.search(
-        r"\b(?:specification|proposition|quantite|prix|montant|marque|modele|type|capacite|vitesse|resolution)\b",
+    line_count = len([line for line in text.splitlines() if line.strip()])
+    
+    # Critère 1 : Page TRÈS courte avec contenu numérique
+    # (probable fin ou continuation de tableau)
+    is_short_numeric = line_count <= 8 and bool(re.search(r"\d", text))
+    if is_short_numeric:
+        return True
+    
+    # Critère 2 : PRÉSENCE EXPLICITE de mots-clés de tableau cible
+    # Model 1: "specification" ou "designation"
+    # Model 2: "caracteristiques" ou "propositions"
+    has_model1_keywords = bool(re.search(
+        r"\b(?:specification|designation)\b",
         text,
         re.IGNORECASE
     ))
     
-    # Vérifier la présence de nombres (caractéristique de tableau de spécifications)
+    has_model2_keywords = bool(re.search(
+        r"\b(?:caracteristiques?|propositions?)\b",
+        text,
+        re.IGNORECASE
+    ))
+    
     has_numbers = bool(re.search(r"\d", text))
     
-    # Vérifier qu'il y a plusieurs lignes (pas juste un titre isolé)
-    line_count = len([line for line in text.splitlines() if line.strip()])
+    # Exclure SEULEMENT les documents administratifs clairs
+    # (pas juste la mention d'un mot, mais une vraie indication de document)
+    is_admin_doc = bool(re.search(
+        r"\b(?:article|signature|cachet|remargue|remarque|page\s+\d|chapitre|table\s+des\s+matieres|manuel|installation\s+du|configuration\s+du|deplacement\s+du|protocole\s+de)\b",
+        text,
+        re.IGNORECASE
+    ))
     
-    return has_technical_content and has_numbers and line_count >= 2
+    # Accepter si : (Model1 ou Model2) ET chiffres ET pas exclu
+    if (has_model1_keywords or has_model2_keywords) and has_numbers and not is_admin_doc:
+        return True
+    
+    return False
 
 
 def _looks_like_note_page(text: str) -> bool:
@@ -269,9 +301,12 @@ def select_target_pages(
             selected_pages.append(page)
             continue
 
-        # Si on est dans un tableau, continuer à capturer les pages
+        # Si on est dans un tableau, continuer à capturer les pages suivantes
         if in_table:
-            # Détection de contenu tabulaire
+            # Nombre de lignes de la page
+            line_count = len([line for line in text.splitlines() if line.strip()])
+            
+            # Détection de contenu tabulaire (strict pour éviter brochures)
             page_is_table_content = _looks_like_table_content(text)
             
             # Détection de page de notes
@@ -280,12 +315,9 @@ def select_target_pages(
             # Détection de fin de tableau
             page_is_end = _looks_like_end_of_table(text)
             
-            # Page courte avec contenu numérique (probable continuation)
-            line_count = len([line for line in text.splitlines() if line.strip()])
-            is_short_numeric = line_count <= 8 and bool(re.search(r"\d", text))
-            
             # Capturer la page si elle fait partie du tableau
-            if page_is_note or page_is_table_content or page_is_end or is_short_numeric:
+            # Condition : contenu de tableau OU notes OU fin
+            if page_is_table_content or page_is_note or page_is_end:
                 selected_pages.append(page)
                 
                 # Si fin détectée, sortir du tableau
