@@ -7,7 +7,8 @@ import unittest
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / 'archive' / 'selectors'))
 
 from page_selector_robust import (
     _analyze_line_structure,

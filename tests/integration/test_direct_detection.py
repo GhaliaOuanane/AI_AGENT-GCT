@@ -6,9 +6,9 @@ import unittest
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / 'src'))
 
-from page_selector import (
+from pdf_extraction.core.page_selector import (
     _normalize,
     _matches_header_model_1,
     _matches_header_model_2,

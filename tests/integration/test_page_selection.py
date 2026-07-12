@@ -1,6 +1,6 @@
 ﻿import unittest
 
-from src.page_selector import select_target_pages
+from pdf_extraction.core.page_selector import select_target_pages
 
 
 class DummyPage:
