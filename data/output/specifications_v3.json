@@ -1,0 +1,714 @@
+{
+  "document": "pages_cibles.pdf",
+  "extraction_date": "2026-07-12T08:10:35.366409Z",
+  "tables": [
+    {
+      "table_id": "table_1",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        1
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_2",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        1
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_3",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        1
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_4",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        1
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_5",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        1
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_6",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        1
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_7",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        1
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_8",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        1
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_9",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        2
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_10",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        2
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_11",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        2
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_12",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        2
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_13",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        2
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_14",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        2
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_15",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        2
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_16",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        2
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_17",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        2
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_18",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        2
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_19",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        2
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_20",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        2
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_21",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        2
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_22",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        2
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_23",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        3
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_24",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        3
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_25",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        3
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_26",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        3
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_27",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        3
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_28",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        4
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_29",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        4
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_30",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        4
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_31",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        4
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_32",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        5
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_33",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        5
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_34",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        5
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_35",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        5
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_36",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        5
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_37",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        5
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_38",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        5
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_39",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        5
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_40",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        5
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_41",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        5
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_42",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        5
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_43",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        5
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_44",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        6
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_45",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        6
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_46",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        6
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_47",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        6
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_48",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        6
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_49",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        6
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_50",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        6
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_51",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        6
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_52",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        6
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_53",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        6
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_54",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        6
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_55",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        6
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_56",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        6
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_57",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        6
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_58",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        6
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    },
+    {
+      "table_id": "table_59",
+      "titre_detecte": "Non détecté",
+      "pages": [
+        6
+      ],
+      "entete_colonne2_detecte": null,
+      "table_rejetee": false,
+      "nb_lignes_designation": 0,
+      "nb_lignes_specification": 0,
+      "entries": []
+    }
+  ]
+}
