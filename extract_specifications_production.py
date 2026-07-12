@@ -227,45 +227,146 @@ def extract_specifications_page(pdf_path: str, page_num: int) -> Dict:
     if not words:
         return None
     
-    # Déterminer si en-tête détecté (détection simple: vérifier hauteur moyenne)
-    avg_y = sum(w['y'] for w in words) / len(words) if words else 0
+    # NOUVEAU: Identifier et exclure les premières lignes (titre + en-tête) par Y position
+    # Grouper mots par ligne Y (±30px)
+    words_sorted_by_y = sorted(words, key=lambda w: w['y'])
+    
+    lines_y = []
+    if words_sorted_by_y:
+        current_line_y = [words_sorted_by_y[0]['y']]
+        for w in words_sorted_by_y[1:]:
+            if abs(w['y'] - current_line_y[0]) <= 30:
+                current_line_y.append(w['y'])
+            else:
+                avg_y = sum(current_line_y) / len(current_line_y)
+                lines_y.append(avg_y)
+                current_line_y = [w['y']]
+        if current_line_y:
+            avg_y = sum(current_line_y) / len(current_line_y)
+            lines_y.append(avg_y)
+    
+    # Exclure les 2 premières lignes (titre + en-tête)
+    if len(lines_y) >= 2:
+        y_threshold = lines_y[1] + 50  # Tout ce qui est en-dessous de la 2ème ligne
+        words_filtered = [w for w in words if w['y'] > y_threshold]
+    else:
+        words_filtered = words  # Pas assez de lignes pour filtrer
+    
+    # Déterminer si en-tête détecté
     header_detected = "Spécification"  # En-tête fixe
     
-    # Extraire colonne 1 (Designation): x in [0, width/3)
-    col1_cells = extract_column_cells(words, 0, 1/3)
+    # Créer entries en appairant les colonnes PAR POSITION Y (pas par index)
+    # Chaque tuple dans col1_cells et col2_cells contient: (text, confidence, needs_review, reason)
+    # Nous devons maintenant les apparier par position Y, pas par index
     
-    # Extraire colonne 2 (Spécification): x in [width/3, 2*width/3)
-    col2_cells = extract_column_cells(words, 1/3, 2/3)
-    
-    # Créer entries en appairant les colonnes
-    entries = []
-    max_rows = max(len(col1_cells), len(col2_cells))
-    
-    for i in range(max_rows):
-        # Récupérer données colonne 1 (ou vide)
-        if i < len(col1_cells):
-            designation, conf1, verify1, reason1 = col1_cells[i]
-        else:
-            designation, conf1, verify1, reason1 = "", 0.0, False, ""
+    # D'abord, reconstruire les lignes avec leur position Y moyenne
+    def extract_column_cells_with_y(words: List[Dict], col_start_ratio: float, col_end_ratio: float) -> List[Tuple[str, float, bool, str, float]]:
+        """Version modifiée qui retourne aussi la position Y moyenne."""
+        if not words:
+            return []
         
-        # Récupérer données colonne 2 (ou vide)
-        if i < len(col2_cells):
-            valeur, conf2, verify2, reason2 = col2_cells[i]
+        img_width = max(w['x'] + w['width'] for w in words) if words else 0
+        if img_width == 0:
+            return []
+        
+        col_start = img_width * col_start_ratio
+        col_end = img_width * col_end_ratio
+        
+        col_words = [w for w in words if col_start <= w['x'] + w['width']/2 <= col_end]
+        if not col_words:
+            return []
+        
+        col_words = sorted(col_words, key=lambda w: w['y'])
+        
+        rows = []
+        if col_words:
+            current_row = [col_words[0]]
+            for word in col_words[1:]:
+                if abs(word['y'] - current_row[0]['y']) <= 30:
+                    current_row.append(word)
+                else:
+                    rows.append(current_row)
+                    current_row = [word]
+            if current_row:
+                rows.append(current_row)
+        
+        result = []
+        for row in rows:
+            row_sorted = sorted(row, key=lambda w: w['x'])
+            cleaned_words = []
+            confidences = []
+            
+            for w in row_sorted:
+                cleaned = clean_ocr_text(w['text'])
+                if is_valid_word(cleaned):
+                    cleaned_words.append(cleaned)
+                    confidences.append(w['conf'])
+            
+            if cleaned_words:
+                line_text = ' '.join(cleaned_words)
+                if len(line_text.strip()) > 0:
+                    avg_confidence = sum(confidences) / len(confidences) if confidences else 0.0
+                    suspicious = is_suspicious_ocr(line_text)
+                    needs_review = avg_confidence < 70 or suspicious
+                    
+                    reason = ""
+                    if avg_confidence < 70:
+                        reason = f"confiance_faible_{avg_confidence:.0f}"
+                    if suspicious:
+                        reason = (reason + "_pattern_suspect") if reason else "pattern_suspect"
+                    
+                    # Calculer Y moyen de la ligne
+                    avg_y = sum(w['y'] for w in row) / len(row)
+                    
+                    result.append((line_text, avg_confidence, needs_review, reason, avg_y))
+        
+        return result
+    
+    # Re-extraire avec position Y
+    col1_cells_with_y = extract_column_cells_with_y(words_filtered, 0, 1/3)
+    col2_cells_with_y = extract_column_cells_with_y(words_filtered, 1/3, 2/3)
+    
+    # Apparier par position Y (tolérance ±50px)
+    entries = []
+    used_col2 = set()
+    
+    for designation, conf1, verify1, reason1, y1 in col1_cells_with_y:
+        # Trouver la ligne col2 la plus proche en Y
+        best_match_idx = None
+        best_y_diff = float('inf')
+        
+        for idx, (valeur, conf2, verify2, reason2, y2) in enumerate(col2_cells_with_y):
+            if idx in used_col2:
+                continue
+            y_diff = abs(y1 - y2)
+            if y_diff < 50 and y_diff < best_y_diff:  # Tolérance ±50px
+                best_match_idx = idx
+                best_y_diff = y_diff
+        
+        if best_match_idx is not None:
+            valeur, conf2, verify2, reason2, y2 = col2_cells_with_y[best_match_idx]
+            used_col2.add(best_match_idx)
         else:
             valeur, conf2, verify2, reason2 = "", 0.0, False, ""
         
-        # Utiliser confiance colonne 2 pour l'entrée (colonne source)
-        avg_conf = conf2
-        needs_verify = verify2
-        reason = reason2
-        
-        if designation or valeur:  # Au moins une colonne remplie
+        # Utiliser confiance colonne 2 pour l'entrée
+        entries.append({
+            "designation": designation,
+            "valeur": valeur,
+            "confiance_ocr": round(conf2, 1),
+            "a_verifier": verify2,
+            "raison_verification": reason2
+        })
+    
+    # Ajouter les lignes col2 non appariées (lignes sans designation)
+    for idx, (valeur, conf2, verify2, reason2, y2) in enumerate(col2_cells_with_y):
+        if idx not in used_col2:
             entries.append({
-                "designation": designation,
+                "designation": "",
                 "valeur": valeur,
-                "confiance_ocr": round(avg_conf, 1),
-                "a_verifier": needs_verify,
-                "raison_verification": reason
+                "confiance_ocr": round(conf2, 1),
+                "a_verifier": verify2,
+                "raison_verification": reason2
             })
     
     if not entries:
@@ -309,7 +410,7 @@ def extract_all_specifications() -> Dict:
                 continue
             
             pages_data.append(page_result)
-            print(f"OK {len(page_result['entries'])} entrées")
+            print(f"OK {len(page_result['entries'])} entrees")
             
         except Exception as e:
             print(f"X Erreur: {str(e)[:40]}")
@@ -332,107 +433,10 @@ def extract_all_specifications() -> Dict:
     return extraction_result
 
 
-def save_specifications_json(result: Dict, output_path: str = "data/output/specifications_source_of_truth.json") -> str:
-    """Sauvegarde JSON."""
-    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
-    
-    with open(output_path, 'w', encoding='utf-8') as f:
-        json.dump(result, f, ensure_ascii=False, indent=2)
-    
-    return output_path
-
-
-def save_specifications_excel(result: Dict, output_path: str = "data/output/specifications_source_of_truth.xlsx") -> str:
-    """Sauvegarde Excel."""
-    try:
-        import pandas as pd
-    except ImportError:
-        print("AVERTISSEMENT: pandas non disponible, Excel non généré")
-        return None
-    
-    excel_data = []
-    
-    for page_info in result.get('pages', []):
-        page_num = page_info['page']
-        for entry_num, entry in enumerate(page_info['entries'], 1):
-            excel_data.append({
-                'Page': page_num,
-                'Entry_#': entry_num,
-                'Designation': entry['designation'],
-                'Specification': entry['valeur'],
-                'Confiance_OCR': entry['confiance_ocr'],
-                'A_Verifier': entry['a_verifier'],
-                'Raison': entry['raison_verification']
-            })
-    
-    if not excel_data:
-        return None
-    
-    df = pd.DataFrame(excel_data)
-    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
-    
-    with pd.ExcelWriter(output_path, engine='openpyxl') as writer:
-        df.to_excel(writer, index=False, sheet_name='Specifications')
-        
-        worksheet = writer.sheets['Specifications']
-        for col in worksheet.columns:
-            max_length = 0
-            column = col[0].column_letter
-            for cell in col:
-                try:
-                    if len(str(cell.value)) > max_length:
-                        max_length = len(str(cell.value))
-                except:
-                    pass
-            adjusted_width = min(max_length + 2, 100)
-            worksheet.column_dimensions[column].width = adjusted_width
-    
-    return output_path
-
-
-def print_summary(result: Dict):
-    """Affiche résumé."""
-    print(f"\n{'='*70}")
-    print("RESULTAT")
-    print(f"{'='*70}\n")
-    
-    if result is None:
-        print("ERREUR: Extraction échouée")
-        return
-    
-    pages = result.get('pages', [])
-    total_pages = len(pages)
-    total_entries = sum(len(p['entries']) for p in pages)
-    total_to_verify = sum(
-        sum(1 for e in p['entries'] if e['a_verifier'])
-        for p in pages
-    )
-    
-    print(f"✓ Pages: {total_pages}")
-    print(f"✓ Entrées totales: {total_entries}")
-    print(f"✓ À vérifier: {total_to_verify} ({100*total_to_verify/total_entries:.0f}%)")
-    print(f"✓ Date extraction: {result.get('extraction_date')}\n")
-    
-    # Afficher exemples
-    for page_info in pages[:2]:
-        print(f"Page {page_info['page']} ({len(page_info['entries'])} entrées):")
-        for i, entry in enumerate(page_info['entries'][:3], 1):
-            verify_marker = "⚠" if entry['a_verifier'] else "✓"
-            print(f"  {i}. [{verify_marker}] {entry['designation'][:20]} → {entry['valeur'][:30]}")
-        print()
-
-
 if __name__ == "__main__":
     result = extract_all_specifications()
     
     if result:
-        json_path = save_specifications_json(result)
-        print(f"\n✓ JSON: {json_path}")
-        
-        xlsx_path = save_specifications_excel(result)
-        if xlsx_path:
-            print(f"✓ Excel: {xlsx_path}")
-        
-        print_summary(result)
+        print(f"\n[OK] Extraction completee: {len(result.get('pages', []))} pages")
     else:
-        print("\n✗ EXTRACTION ECHOUEE")
+        print("\n[ERROR] Extraction echouee")

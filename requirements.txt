@@ -1,5 +1,11 @@
 pypdf
-pytesseract
 pdf2image
 Pillow
 opencv-python
+pytesseract
+pymupdf
+rapidfuzz
+scikit-learn
+numpy
+pandas
+openpyxl

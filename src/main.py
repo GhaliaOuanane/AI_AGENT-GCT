@@ -4,7 +4,7 @@ import pytesseract
 from pdf_reader import open_pdf
 from pdf_writer import write_selected_pages
 from page_selector import select_target_pages
-from column_extractor import extract_all_columns, verify_tesseract_setup, extract_structured_rows, to_json, to_excel, print_summary
+from column_extractor import verify_tesseract_setup, to_json
 
 # Configure Tesseract path for Windows
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
@@ -109,16 +109,14 @@ def main():
                     "methode_mapping_headers": "ratio_based"
                 })
         
-        # Export JSON
+        # Export JSON uniquement
         to_json(results, "data/output/extraction.json")
         
-        # Export Excel
-        to_excel(results, "data/output/extraction.xlsx")
-        
         # Résumé
-        print(f"\n✅ Extraction V2 complétée:")
+        print(f"\n[OK] Extraction completee:")
         print(f"   Total entries: {len(results)}")
-        print(f"   Flagged: {sum(1 for r in results if r['confiance_ocr']['specification'] < 70)}")
+        print(f"   Source: {output_path}")
+        print(f"   Output: data/output/extraction.json")
     else:
         print("[WARN] Aucune ligne extraite")
 

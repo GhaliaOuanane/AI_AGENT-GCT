@@ -166,6 +166,47 @@ python scripts/verify_output.py
 python scripts/check_pages.py
 ```
 
+---
+
+### 🎯 Extraction de la Deuxième Colonne (NOUVEAU)
+
+Extraire uniquement la deuxième colonne des tableaux à 3 colonnes (Spécifications / Caractéristiques techniques).
+
+**Utilisation :**
+```bash
+# Mode complet
+python src/main_specifications.py
+
+# Mode détail avec test
+python scripts/test_second_column.py
+
+# Visualiser les résultats
+python scripts/show_specifications.py
+```
+
+**Fichiers générés :**
+- `data/output/specifications.json` - Toutes les pages
+- `data/output/specifications_strict.json` - Pages haute qualité uniquement
+
+**Format de sortie :**
+```json
+[
+  {
+    "page": 3,
+    "specifications": [
+      "A préciser",
+      "Laser monochrome",
+      "1200 × 1200 dpi",
+      "Jusqu'à 55 pages par minute"
+    ]
+  }
+]
+```
+
+Pour plus de détails : voir `SECOND_COLUMN_EXTRACTION.md`
+
+---
+
 ## 📁 Structure du Projet
 
 ```
