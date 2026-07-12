@@ -1,0 +1,1982 @@
+[
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Marque et Modele",
+    "specification": "Imprimante Laser",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 86.5,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "FTechnologie d'hnpression",
+    "specification": "Specaf:catmn",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 66.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Resolufion de",
+    "specification": "preciser",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 93.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Vitesse d'impression",
+    "specification": "Laise: monochrema",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 43.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Vitesse d'impression",
+    "specification": "dpi",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 78.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "verso",
+    "specification": "-S Jusqu'a 55 pages par minute en",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 83.7,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Temps de prechauffage",
+    "specification": "recto- 39 pages 4 par minute",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 76.7,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Tem ps de premiere",
+    "specification": "25 secondes",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.5,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Connexions",
+    "specification": "impresslon 5 secondes max",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 79.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Bac polyvalent",
+    "specification": "2 ports USB hote Gigabit",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 89.2,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Magasin papier standard",
+    "specification": "(10BaseT/100BaseTX/1000",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Systemes d'exploitation",
+    "specification": "base",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "compatibles",
+    "specification": "100 feuilles",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "fonctxonnement Toner de",
+    "specification": "500 feuilles",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Vltesse du processeur",
+    "specification": "Tous les systemes d'exploitation",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.8,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Accessoires",
+    "specification": "Windows",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "1 5000 25000 pages",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "ARM Cortex-A53 Dual core",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 90.8,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "512Mo",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 79.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "Cable reseau 3 Meetres par",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 79.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "imprimante.",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "Cable USB 2 Metres par",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 85.8,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "imprimante.",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 88.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "Toner de demarrage installe 10000",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 93.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "pages minimum sur chaque",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.8,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 1,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "imprimante.",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 44.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Modele",
+    "specification": "CARACT ERTEQUES TEChN",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 62.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Frocesseur central",
+    "specification": "MlNIMALES",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 75.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Marque et modele",
+    "specification": "T preciser",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 39.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Frequence d'horloge",
+    "specification": "A",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 46.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Memoire cache Nbr Core",
+    "specification": "TT",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 32.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Memoire centrale",
+    "specification": "d",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 36.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Capacite proposee",
+    "specification": "Intel Core 17- 12eme gene",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 87.8,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Emplacement DIM",
+    "specification": "Ultra Low Power",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.7,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Frequence",
+    "specification": "Up to 04,7 Ghz min",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.2,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Disquedur",
+    "specification": "12 MO",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Marque et modele",
+    "specification": "16 GO min",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 81.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Capacite proposee",
+    "specification": "Apreciser",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 82.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Affichage",
+    "specification": "preciser",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Clavier",
+    "specification": "preaser",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 68.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Carte Son integree",
+    "specification": "A",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 83.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Systeme exploitation",
+    "specification": "512 Go min",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Connectique",
+    "specification": "6\" FHD",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 56.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Wifi",
+    "specification": "AZERTY 105 Touches",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "USB",
+    "specification": "Arabe Latin",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Bluetooth",
+    "specification": "Oui avec Entree Micro",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "Oui",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 70.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "1TypeC,ITYPEA ITYPE2x",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 37.5,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "Oui",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 75.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 2,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "2 e t e u",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 43.8,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 3,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Webcam",
+    "specification": "Qui avec Micro",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 90.7,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 3,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Carte reseau",
+    "specification": "10/100/1000 Mbps",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.5,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 3,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Batterie",
+    "specification": "Capacite Standard",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 3,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Declaration de conformite",
+    "specification": "de la marque Oui",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 90.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 3,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Couleur",
+    "specification": "preciser",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 58.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 3,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Sacoche de la murne",
+    "specification": "marque Oui",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 3,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Conditions generales",
+    "specification": "12 mois",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 3,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Garantie",
+    "specification": "",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 0.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 4,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Specification",
+    "specification": "LOT 3 Acquisition des",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.8,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 4,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Marque et Modelo",
+    "specification": "technique Scanner. Quantite :05",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 90.5,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 4,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Type de Scanner",
+    "specification": "Scanner a defilement",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.7,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 4,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Vitesse de Numerisation",
+    "specification": "26 ppm minimum",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 4,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Resolution de numerisation",
+    "specification": "600 dpi 600 dpi",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 4,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Formats de papier",
+    "specification": "A4",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 90.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 4,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Chargeur automatique",
+    "specification": "de 50 feuilles",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 4,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "documents",
+    "specification": "USs",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 45.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 4,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Connectivite",
+    "specification": "doivent forcement remplir la colonne",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 90.8,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 4,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "NB Les fournisseurs",
+    "specification": "2) L",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 38.5,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 4,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": ".'le L",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 44.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Lot",
+    "specification": "Specification dune imprimante",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 88.3,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Marque et",
+    "specification": "p",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 75.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Technalogie",
+    "specification": "Designation Specification",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Resolution de",
+    "specification": "A preciser",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 82.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Vitesse d'impression",
+    "specification": "Tmpression Laser monochrome",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 80.3,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Temps de",
+    "specification": "1200 1200 dpi",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 88.3,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Temps de premiere",
+    "specification": "agsqu'a 45 pages par",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 81.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Connexions",
+    "specification": "prechauffage 16 secondes",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "verso",
+    "specification": "maximum",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Capacite d'entree",
+    "specification": "impression 6 secondes maximum",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 90.5,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Systemes",
+    "specification": "USB 2 0 (haut debit),",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 88.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "compatibles",
+    "specification": "Gigabit (10BaseT",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 88.5,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Toner de",
+    "specification": "1000Base",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 90.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Accessoires",
+    "specification": "Automatique",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Memoire",
+    "specification": "100 feuillas",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 88.5,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Garantie",
+    "specification": "d'exploitation Tous les systemes",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 89.8,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "NB Les fournisseurs",
+    "specification": "Windows",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 90.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "fonctionnement Allant jusqu'a 12.500",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 90.8,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "Toner de demarrage",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "pages minimum",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "Cable reseau 3 Metres",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 79.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "imprimante.",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 69.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "USB 2 Metres par",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 86.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "512 Mo",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.5,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "doivent forcement remplir clairement",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 78.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "AU 35",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 46.5,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 5,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "63",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 81.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Lot: Specification",
+    "specification": "technique dune imprimante",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 67.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Designation",
+    "specification": "matricielle A4,",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 77.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Marque et Modele",
+    "specification": "Specification",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Type d'Imprimante",
+    "specification": "preciser",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 88.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Resolution de l'impression",
+    "specification": "Matricielle",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 88.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Mode d'impression",
+    "specification": "240 x 144 DP (ppp)",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 79.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Notnibre d'aiguilles",
+    "specification": "Matricielle a impaci",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 75.3,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Nombre des colonnes",
+    "specification": "24 aiguilles",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Vitesse d'impression",
+    "specification": "80 Colonnes",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.5,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Connexions",
+    "specification": "HighSpeed-Draft: 10 cpi: 347 caracteres",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.4,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Alimentation en papier",
+    "specification": "12 cpi: 357 caracteres par 15 cpi:",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.1,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Formats de papier",
+    "specification": "s, 390",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 96.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Gamme de tension/ Frequance",
+    "specification": "caracteres par s, Draft: 10 cpi: 260",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.9,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "nominale",
+    "specification": "par s, 12 cpi: 312 caracteres par NLQ:",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.4,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Memoire",
+    "specification": "s,",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 93.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Rendement du ruban",
+    "specification": "65 caracteres par s, 12 cpi: 78 caracteres",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.9,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Contenu",
+    "specification": "Feuille individuelle derriere, Papier",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 82.5,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "de la Boite",
+    "specification": "derriere, Sortie en",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.7,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "Garantie",
+    "specification": "papier derriere",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "5",
+    "specification": "Papier en feuilles (a une plusieurs",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 89.7,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "NB Les fournisseurs doivent",
+    "specification": "ou",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 74.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "specifications demandees",
+    "specification": "Papier sans fin (a une plusieurs",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "ou couches),",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 68.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "Etiquettes (a une ou plusieurs",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 90.8,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "couches),",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 91.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "en routeaux, Enveloppes",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 83.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "AG 200 V-240V",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 90.3,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "128 Kb",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.5,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "2500000 Caracteres Noir",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 86.7,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "Appareil principal, (D2) Deux Rubans",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 84.6,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "remplir les champs(en gris) de",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 87.2,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "proposition",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 92.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "ou plus.",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 73.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "p",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 45.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "ts TT",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 50.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  },
+  {
+    "fichier": "pages_cibles.pdf",
+    "page": 6,
+    "lot": null,
+    "modele_detecte": "v2_ratio_based",
+    "designation": "",
+    "specification": "e",
+    "proposition": "",
+    "confiance_ocr": {
+      "designation": 0,
+      "specification": 47.0,
+      "proposition": 0
+    },
+    "methode_mapping_headers": "ratio_based"
+  }
+]

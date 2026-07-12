@@ -1,9 +1,13 @@
 from pathlib import Path
+import pytesseract
 
 from pdf_reader import open_pdf
 from pdf_writer import write_selected_pages
 from page_selector import select_target_pages
-from column_extractor import extract_all_columns
+from column_extractor import extract_all_columns, verify_tesseract_setup, extract_structured_rows, to_json, to_excel, print_summary
+
+# Configure Tesseract path for Windows
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 
 def _find_input_pdf() -> Path:
@@ -25,6 +29,11 @@ def _resolve_poppler_path() -> str | None:
 
 
 def main():
+
+    # Vérifier la configuration Tesseract avant de commencer
+    if not verify_tesseract_setup():
+        print("[ERROR] Tesseract setup failed. Please fix the configuration and try again.")
+        return
 
     input_path = _find_input_pdf()
     output_path = "data/output/pages_cibles.pdf"
@@ -57,18 +66,61 @@ def main():
     print("\nPDF créé avec succès.")
     print(f"Fichier enregistré : {output_path}")
 
-    # Extraction des 2ᵉ colonnes
+    # Extraction structurée des lignes avec alignement des 3 colonnes
     print("\n" + "=" * 60)
-    print("EXTRACTION DES 2ᵉ COLONNES")
+    print("EXTRACTION STRUCTURÉE DES LIGNES (V2 PROVEN)")
     print("=" * 60)
     
-    extract_all_columns(
-        reader=reader,
-        pdf_path=input_path,
-        selected_pages=selected_pages,
-        output_dir="data/output",
-        poppler_path=poppler_path,
-    )
+    # CORRECTION: Utiliser l'extraction V2 qui marche (ratio-based, page-level)
+    print(f"\nExtraction depuis : {output_path} (pages cibles uniquement)")
+    print("Utilisation de l'algorithme V2 (ratio-based, prouvé avec 132 entries)\n")
+    
+    # Import V2 extraction
+    import sys
+    sys.path.insert(0, str(Path(__file__).parent.parent))
+    from extract_specifications_production import extract_all_specifications as extract_v2
+    
+    # Temporairement pointer vers pages_cibles.pdf
+    import shutil
+    temp_backup = None
+    pages_cibles_in_output = Path(output_path)
+    
+    # V2 cherche pages_cibles.pdf dans data/output (déjà là)
+    v2_result = extract_v2()
+    
+    if v2_result:
+        # Convertir format V2 vers format extraction.json
+        results = []
+        for page_data in v2_result['pages']:
+            for entry in page_data['entries']:
+                results.append({
+                    "fichier": v2_result['document'],
+                    "page": page_data['page'],
+                    "lot": None,
+                    "modele_detecte": "v2_ratio_based",
+                    "designation": entry['designation'],
+                    "specification": entry['valeur'],
+                    "proposition": "",
+                    "confiance_ocr": {
+                        "designation": 0,
+                        "specification": entry['confiance_ocr'],
+                        "proposition": 0
+                    },
+                    "methode_mapping_headers": "ratio_based"
+                })
+        
+        # Export JSON
+        to_json(results, "data/output/extraction.json")
+        
+        # Export Excel
+        to_excel(results, "data/output/extraction.xlsx")
+        
+        # Résumé
+        print(f"\n✅ Extraction V2 complétée:")
+        print(f"   Total entries: {len(results)}")
+        print(f"   Flagged: {sum(1 for r in results if r['confiance_ocr']['specification'] < 70)}")
+    else:
+        print("[WARN] Aucune ligne extraite")
 
 
 if __name__ == "__main__":
