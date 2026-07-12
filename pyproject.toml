@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pdf-extraction"
+version = "1.0.0"
+description = "Extraction intelligente de spécifications techniques depuis PDFs"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "Proprietary"}
+authors = [{name = "GCT - Division Informatique"}]
+
+dependencies = [
+    "pypdf>=3.0.0",
+    "pdf2image>=1.16.0",
+    "Pillow>=10.0.0",
+    "opencv-python>=4.8.0",
+    "pytesseract>=0.3.10",
+    "pymupdf>=1.23.0",
+    "rapidfuzz>=3.0.0",
+    "scikit-learn>=1.3.0",
+    "numpy>=1.24.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4.0", "black>=23.0.0", "flake8>=6.0.0"]
+
+[project.scripts]
+pdf-extract = "pdf_extraction.main:main"
+pdf-extract-specs = "pdf_extraction.main_specifications:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
