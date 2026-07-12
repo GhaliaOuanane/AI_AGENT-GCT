@@ -247,7 +247,7 @@ def _page_text(
         raise ValueError("pdf_path is required when use_ocr=True")
 
     if ocr_func is None:
-        import ocr_reader
+        from pdf_extraction.core import ocr_reader
         ocr_func = ocr_reader.ocr_page
 
     return ocr_func(
