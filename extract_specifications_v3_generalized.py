@@ -165,7 +165,7 @@ def segment_tables_in_document(pdf_path: str) -> Dict[int, List[TableRegion]]:
 def detect_tables_on_page(doc, page_num: int, dpi: int = 300) -> List[TableRegion]:
     """
     Détecte régions de tableaux sur une page.
-    Retourne: list of TableRegion
+    CORRECTION: Fusionner régions adjacentes pour éviter sur-segmentation.
     """
     page = doc[page_num]
     zoom = dpi / 72.0
@@ -190,22 +190,41 @@ def detect_tables_on_page(doc, page_num: int, dpi: int = 300) -> List[TableRegio
     in_region = False
     y_start = 0
     
+    min_region_height = 150  # INCREASED from 50 to avoid micro-fragments
+    
     for y in range(len(h_proj)):
         if h_proj[y] > threshold and not in_region:
             y_start = y
             in_region = True
         elif h_proj[y] <= threshold and in_region:
             # Region ended
-            if y - y_start > 50:  # Min height for table region
+            if y - y_start > min_region_height:
                 regions.append((y_start, y))
             in_region = False
     
-    if in_region and len(h_proj) - y_start > 50:
+    if in_region and len(h_proj) - y_start > min_region_height:
         regions.append((y_start, len(h_proj)))
+    
+    # Merge adjacent regions (gap < 100px) to avoid over-segmentation
+    merged_regions = []
+    if regions:
+        current_start, current_end = regions[0]
+        
+        for y_start, y_end in regions[1:]:
+            gap = y_start - current_end
+            if gap < 100:  # Merge if gap is small
+                current_end = y_end
+            else:
+                merged_regions.append((current_start, current_end))
+                current_start, current_end = y_start, y_end
+        
+        merged_regions.append((current_start, current_end))
+    else:
+        merged_regions = regions
     
     # Convert to TableRegion objects
     table_regions = []
-    for y_min, y_max in regions:
+    for y_min, y_max in merged_regions:
         # Vertical extent full width for now
         table_regions.append(TableRegion(
             page_num=page_num,
