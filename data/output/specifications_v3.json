@@ -1,6 +1,6 @@
 {
   "document": "pages_cibles.pdf",
-  "extraction_date": "2026-07-12T08:10:35.366409Z",
+  "extraction_date": "2026-07-12T08:34:00.924231Z",
   "tables": [
     {
       "table_id": "table_1",
@@ -9,10 +9,21 @@
         1
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "motif_rejet": null,
+      "nb_lignes_designation": 1,
+      "nb_lignes_specification": 1,
+      "entries": [
+        {
+          "designation": ", £",
+          "type": "donnee",
+          "valeur": "| |",
+          "confiance_ocr": 83.5,
+          "a_verifier": true,
+          "motif_verification": "symbole_suspect"
+        }
+      ]
     },
     {
       "table_id": "table_2",
@@ -21,10 +32,21 @@
         1
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "nb_lignes_specification": 1,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "L %",
+          "confiance_ocr": 45.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_3",
@@ -33,7 +55,9 @@
         1
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -45,10 +69,29 @@
         1
       ],
       "entete_colonne2_detecte": null,
-      "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "entete_colonne2_suspecte": false,
+      "table_rejetee": true,
+      "motif_rejet": "lignes_desalignees",
+      "nb_lignes_designation": 1,
+      "nb_lignes_specification": 2,
+      "entries": [
+        {
+          "designation": "L",
+          "type": "donnee",
+          "valeur": "Vitesse d'impression-reoto- ;",
+          "confiance_ocr": 69.7,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "; e CCC T AN T A",
+          "confiance_ocr": 43.1,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_5",
@@ -57,10 +100,21 @@
         1
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "nb_lignes_specification": 1,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "\" S E",
+          "confiance_ocr": 53.7,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_6",
@@ -69,7 +123,9 @@
         1
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -81,10 +137,37 @@
         1
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "nb_lignes_specification": 3,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "—",
+          "confiance_ocr": 70.0,
+          "a_verifier": false,
+          "motif_verification": null
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "4 An ts 1 4",
+          "confiance_ocr": 49.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "\" 4 PF É T À À b 4",
+          "confiance_ocr": 42.6,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_8",
@@ -93,7 +176,9 @@
         1
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -105,7 +190,9 @@
         2
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -117,10 +204,21 @@
         2
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
-      "nb_lignes_designation": 0,
+      "motif_rejet": null,
+      "nb_lignes_designation": 1,
       "nb_lignes_specification": 0,
-      "entries": []
+      "entries": [
+        {
+          "designation": "_",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        }
+      ]
     },
     {
       "table_id": "table_11",
@@ -129,10 +227,69 @@
         2
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "nb_lignes_specification": 7,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "- 11 L",
+          "confiance_ocr": 50.7,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "- * ; F 1",
+          "confiance_ocr": 53.2,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "L",
+          "confiance_ocr": 32.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "T8",
+          "confiance_ocr": 31.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "Î -; E+ %\" |",
+          "confiance_ocr": 52.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "11 -",
+          "confiance_ocr": 38.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": ", An £",
+          "confiance_ocr": 50.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_12",
@@ -141,10 +298,21 @@
         2
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "motif_rejet": null,
+      "nb_lignes_designation": 1,
+      "nb_lignes_specification": 1,
+      "entries": [
+        {
+          "designation": ";",
+          "type": "donnee",
+          "valeur": "— ‘",
+          "confiance_ocr": 63.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_13",
@@ -153,10 +321,45 @@
         2
       ],
       "entete_colonne2_detecte": null,
-      "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "entete_colonne2_suspecte": false,
+      "table_rejetee": true,
+      "motif_rejet": "lignes_desalignees",
+      "nb_lignes_designation": 1,
+      "nb_lignes_specification": 4,
+      "entries": [
+        {
+          "designation": "‘ ‘ q",
+          "type": "donnee",
+          "valeur": "…Ë“ÏŒËËËËLÂË‘ÊËÎÉÊ.QŒË , :'_vj:.‘,-_-_.;f‘ï': , ts . S e",
+          "confiance_ocr": 51.6,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "; T TT P L TT T",
+          "confiance_ocr": 40.1,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "1 FN NN E A 0 n É , = LS L T",
+          "confiance_ocr": 43.5,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "; p T E > ,\" T",
+          "confiance_ocr": 46.9,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_14",
@@ -165,10 +368,45 @@
         2
       ],
       "entete_colonne2_detecte": null,
-      "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "entete_colonne2_suspecte": false,
+      "table_rejetee": true,
+      "motif_rejet": "lignes_desalignees",
+      "nb_lignes_designation": 1,
+      "nb_lignes_specification": 4,
+      "entries": [
+        {
+          "designation": "| | | F",
+          "type": "donnee",
+          "valeur": "Freq Œd'h0rloge",
+          "confiance_ocr": 72.0,
+          "a_verifier": false,
+          "motif_verification": null
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "Le 19777 0F sS S e C1 e |",
+          "confiance_ocr": 45.1,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "P rrr",
+          "confiance_ocr": 39.5,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "… T CT P e |",
+          "confiance_ocr": 39.5,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_15",
@@ -177,10 +415,29 @@
         2
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "nb_lignes_specification": 2,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "A A E MEN E _ A A T T E A T N N L T TT EN",
+          "confiance_ocr": 40.8,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "TT T TT A E T EN",
+          "confiance_ocr": 42.6,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_16",
@@ -189,10 +446,45 @@
         2
       ],
       "entete_colonne2_detecte": null,
-      "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "entete_colonne2_suspecte": false,
+      "table_rejetee": true,
+      "motif_rejet": "lignes_desalignees",
+      "nb_lignes_designation": 3,
+      "nb_lignes_specification": 3,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "Bi v TT TN",
+          "confiance_ocr": 52.5,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "| ; LF a a",
+          "type": "donnee",
+          "valeur": "|",
+          "confiance_ocr": 92.0,
+          "a_verifier": true,
+          "motif_verification": "symbole_suspect"
+        },
+        {
+          "designation": "> ; ; B R",
+          "type": "donnee",
+          "valeur": "| Type",
+          "confiance_ocr": 63.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "al ; B R",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        }
+      ]
     },
     {
       "table_id": "table_17",
@@ -201,10 +493,29 @@
         2
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "motif_rejet": null,
+      "nb_lignes_designation": 1,
+      "nb_lignes_specification": 1,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "N ° e 12 P E",
+          "confiance_ocr": 41.3,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "j F",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        }
+      ]
     },
     {
       "table_id": "table_18",
@@ -213,7 +524,9 @@
         2
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -225,10 +538,45 @@
         2
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "motif_rejet": null,
+      "nb_lignes_designation": 3,
+      "nb_lignes_specification": 1,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "|* 141 E E C 1 1E 11 T 1 — T =— n 1 =— s1 1 T TS T 131 n n 1 41 TC 1 1E TT T —s T A TT OM E E",
+          "confiance_ocr": 44.3,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "Ë",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        },
+        {
+          "designation": "q",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        },
+        {
+          "designation": "b",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        }
+      ]
     },
     {
       "table_id": "table_20",
@@ -237,10 +585,21 @@
         2
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "nb_lignes_specification": 1,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "- Frequence deresalution 1",
+          "confiance_ocr": 53.2,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_21",
@@ -249,10 +608,21 @@
         2
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "nb_lignes_specification": 1,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "EN A N S ETE T T TT T TR A T A E C T T T T",
+          "confiance_ocr": 41.4,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_22",
@@ -261,10 +631,29 @@
         2
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "nb_lignes_specification": 2,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "' P T L OE _",
+          "confiance_ocr": 45.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "| ; 2 En T E T E TT À",
+          "confiance_ocr": 49.2,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_23",
@@ -273,10 +662,37 @@
         3
       ],
       "entete_colonne2_detecte": null,
-      "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "entete_colonne2_suspecte": false,
+      "table_rejetee": true,
+      "motif_rejet": "lignes_desalignees",
+      "nb_lignes_designation": 2,
+      "nb_lignes_specification": 2,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "E",
+          "confiance_ocr": 51.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "1 O",
+          "type": "donnee",
+          "valeur": "-",
+          "confiance_ocr": 81.0,
+          "a_verifier": false,
+          "motif_verification": null
+        },
+        {
+          "designation": "E RE e !",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        }
+      ]
     },
     {
       "table_id": "table_24",
@@ -285,7 +701,9 @@
         3
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -297,7 +715,9 @@
         3
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -309,10 +729,21 @@
         3
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "nb_lignes_specification": 1,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "q - =—\" e C A E NF C1 O 41 1-",
+          "confiance_ocr": 39.6,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_27",
@@ -321,10 +752,37 @@
         3
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "motif_rejet": null,
+      "nb_lignes_designation": 1,
+      "nb_lignes_specification": 2,
+      "entries": [
+        {
+          "designation": "3",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "F TVS TTN -",
+          "confiance_ocr": 45.8,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "P uL E A E E T E n |",
+          "confiance_ocr": 47.8,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_28",
@@ -333,10 +791,29 @@
         4
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "motif_rejet": null,
+      "nb_lignes_designation": 2,
+      "nb_lignes_specification": 1,
+      "entries": [
+        {
+          "designation": "TAT X + 1",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        },
+        {
+          "designation": "1 27 - …. L — PE \" T",
+          "type": "donnee",
+          "valeur": "* À",
+          "confiance_ocr": 49.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_29",
@@ -345,7 +822,9 @@
         4
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -357,7 +836,9 @@
         4
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -369,7 +850,9 @@
         4
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -381,7 +864,9 @@
         5
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -393,10 +878,21 @@
         5
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "motif_rejet": null,
+      "nb_lignes_designation": 1,
+      "nb_lignes_specification": 1,
+      "entries": [
+        {
+          "designation": "h = ;",
+          "type": "donnee",
+          "valeur": "e PS T T N . - 18",
+          "confiance_ocr": 43.4,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_34",
@@ -405,7 +901,9 @@
         5
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -417,10 +915,37 @@
         5
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "motif_rejet": null,
+      "nb_lignes_designation": 3,
+      "nb_lignes_specification": 1,
+      "entries": [
+        {
+          "designation": "e E .. -",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        },
+        {
+          "designation": "J 046 P E OE",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        },
+        {
+          "designation": "E …* * A C1T C ……* Tt 2n - T e",
+          "type": "donnee",
+          "valeur": "…* 4 * A A",
+          "confiance_ocr": 51.2,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_36",
@@ -429,7 +954,9 @@
         5
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -441,10 +968,61 @@
         5
       ],
       "entete_colonne2_detecte": null,
-      "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "entete_colonne2_suspecte": false,
+      "table_rejetee": true,
+      "motif_rejet": "lignes_desalignees",
+      "nb_lignes_designation": 2,
+      "nb_lignes_specification": 6,
+      "entries": [
+        {
+          "designation": "; |",
+          "type": "donnee",
+          "valeur": "\" Modele: , preciser ‘ ‘",
+          "confiance_ocr": 57.5,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "1114 1 … 1 0 R T E SP E . Q",
+          "confiance_ocr": 38.3,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "4",
+          "type": "donnee",
+          "valeur": "11 P ° E E |",
+          "confiance_ocr": 56.8,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "B … u1T T 1E E - - - Z Q",
+          "confiance_ocr": 49.8,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "E U 4 A * 7n F E L L |",
+          "confiance_ocr": 45.2,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "e E E A S E A É s« } EN / A TS —",
+          "confiance_ocr": 43.5,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_38",
@@ -453,10 +1031,85 @@
         5
       ],
       "entete_colonne2_detecte": null,
-      "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "entete_colonne2_suspecte": false,
+      "table_rejetee": true,
+      "motif_rejet": "lignes_desalignees",
+      "nb_lignes_designation": 5,
+      "nb_lignes_specification": 8,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "l C |",
+          "confiance_ocr": 58.7,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "| |",
+          "confiance_ocr": 84.0,
+          "a_verifier": true,
+          "motif_verification": "symbole_suspect"
+        },
+        {
+          "designation": "4",
+          "type": "donnee",
+          "valeur": "1 E E E |",
+          "confiance_ocr": 51.4,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "- e M e E ; |",
+          "confiance_ocr": 49.1,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "e",
+          "confiance_ocr": 33.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "#",
+          "type": "donnee",
+          "valeur": "C",
+          "confiance_ocr": 33.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": ";",
+          "type": "donnee",
+          "valeur": "|",
+          "confiance_ocr": 41.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "4",
+          "type": "donnee",
+          "valeur": "Ë |,—VV_Q:!‘I‘J‘.‘:\\\"'L‘—JI _ x_.Î-.;-:‘.£;‘.-\"!Ë.‘ﬁa.‘°‘H“‘\"",
+          "confiance_ocr": 53.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "Æ",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        }
+      ]
     },
     {
       "table_id": "table_39",
@@ -465,10 +1118,77 @@
         5
       ],
       "entete_colonne2_detecte": null,
-      "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "entete_colonne2_suspecte": false,
+      "table_rejetee": true,
+      "motif_rejet": "lignes_desalignees",
+      "nb_lignes_designation": 2,
+      "nb_lignes_specification": 7,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "p 1S",
+          "confiance_ocr": 44.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "| E A RS 4}",
+          "confiance_ocr": 45.2,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "“",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "vetso TU",
+          "confiance_ocr": 64.5,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "Verso 0 _—l",
+          "confiance_ocr": 37.7,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "d'entree e {",
+          "confiance_ocr": 59.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "E T e",
+          "confiance_ocr": 40.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "|",
+          "type": "donnee",
+          "valeur": ";",
+          "confiance_ocr": 45.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_40",
@@ -477,10 +1197,21 @@
         5
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
-      "nb_lignes_designation": 0,
+      "motif_rejet": null,
+      "nb_lignes_designation": 1,
       "nb_lignes_specification": 0,
-      "entries": []
+      "entries": [
+        {
+          "designation": "1",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        }
+      ]
     },
     {
       "table_id": "table_41",
@@ -489,10 +1220,61 @@
         5
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "nb_lignes_specification": 6,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "’5 compatibles … 1",
+          "confiance_ocr": 67.5,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "M E É E E",
+          "confiance_ocr": 43.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "L ….",
+          "confiance_ocr": 34.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": ": Toner defonctionnement:",
+          "confiance_ocr": 52.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "- LI A A -",
+          "confiance_ocr": 52.2,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "E SE U-",
+          "confiance_ocr": 35.7,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_42",
@@ -501,10 +1283,21 @@
         5
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "nb_lignes_specification": 1,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "| E PE SS … C",
+          "confiance_ocr": 48.8,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_43",
@@ -513,7 +1306,9 @@
         5
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -525,10 +1320,29 @@
         6
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "nb_lignes_specification": 2,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "H",
+          "confiance_ocr": 46.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "L lL\".….zrs",
+          "confiance_ocr": 44.5,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_45",
@@ -537,7 +1351,9 @@
         6
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -549,10 +1365,37 @@
         6
       ],
       "entete_colonne2_detecte": null,
-      "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "entete_colonne2_suspecte": false,
+      "table_rejetee": true,
+      "motif_rejet": "lignes_desalignees",
+      "nb_lignes_designation": 2,
+      "nb_lignes_specification": 2,
+      "entries": [
+        {
+          "designation": ";",
+          "type": "donnee",
+          "valeur": "SUN 03 % 1 F",
+          "confiance_ocr": 52.8,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "_“(",
+          "confiance_ocr": 44.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "Î",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        }
+      ]
     },
     {
       "table_id": "table_47",
@@ -561,7 +1404,9 @@
         6
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -573,10 +1418,37 @@
         6
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "motif_rejet": null,
+      "nb_lignes_designation": 2,
+      "nb_lignes_specification": 1,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "|l d sE F - A A E",
+          "confiance_ocr": 40.1,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "4",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        },
+        {
+          "designation": "|",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        }
+      ]
     },
     {
       "table_id": "table_49",
@@ -585,10 +1457,21 @@
         6
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "nb_lignes_specification": 1,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "= 1",
+          "confiance_ocr": 43.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_50",
@@ -597,7 +1480,9 @@
         6
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -609,10 +1494,53 @@
         6
       ],
       "entete_colonne2_detecte": null,
-      "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "entete_colonne2_suspecte": false,
+      "table_rejetee": true,
+      "motif_rejet": "lignes_desalignees",
+      "nb_lignes_designation": 1,
+      "nb_lignes_specification": 5,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "e T 11 E 1T",
+          "confiance_ocr": 43.2,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "‘",
+          "confiance_ocr": 60.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "| k",
+          "confiance_ocr": 80.5,
+          "a_verifier": true,
+          "motif_verification": "symbole_suspect"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "Î |",
+          "confiance_ocr": 62.5,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "G |",
+          "type": "donnee",
+          "valeur": "| '",
+          "confiance_ocr": 68.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_52",
@@ -621,10 +1549,21 @@
         6
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
-      "nb_lignes_designation": 0,
+      "motif_rejet": null,
+      "nb_lignes_designation": 1,
       "nb_lignes_specification": 0,
-      "entries": []
+      "entries": [
+        {
+          "designation": "|",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        }
+      ]
     },
     {
       "table_id": "table_53",
@@ -633,7 +1572,9 @@
         6
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -645,10 +1586,21 @@
         6
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "nb_lignes_specification": 1,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "RL 5 Q",
+          "confiance_ocr": 40.3,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     },
     {
       "table_id": "table_55",
@@ -657,10 +1609,29 @@
         6
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
-      "nb_lignes_designation": 0,
+      "motif_rejet": null,
+      "nb_lignes_designation": 2,
       "nb_lignes_specification": 0,
-      "entries": []
+      "entries": [
+        {
+          "designation": "E",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        },
+        {
+          "designation": "J",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        }
+      ]
     },
     {
       "table_id": "table_56",
@@ -669,7 +1640,9 @@
         6
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -681,10 +1654,45 @@
         6
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "motif_rejet": null,
+      "nb_lignes_designation": 3,
+      "nb_lignes_specification": 1,
+      "entries": [
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "L U-3 $s E",
+          "confiance_ocr": 48.0,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "; Î",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        },
+        {
+          "designation": "4",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        },
+        {
+          "designation": ": Î",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        }
+      ]
     },
     {
       "table_id": "table_58",
@@ -693,7 +1701,9 @@
         6
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
+      "motif_rejet": null,
       "nb_lignes_designation": 0,
       "nb_lignes_specification": 0,
       "entries": []
@@ -705,10 +1715,37 @@
         6
       ],
       "entete_colonne2_detecte": null,
+      "entete_colonne2_suspecte": false,
       "table_rejetee": false,
-      "nb_lignes_designation": 0,
-      "nb_lignes_specification": 0,
-      "entries": []
+      "motif_rejet": null,
+      "nb_lignes_designation": 1,
+      "nb_lignes_specification": 2,
+      "entries": [
+        {
+          "designation": ", 7 1770",
+          "type": "section",
+          "valeur": null,
+          "confiance_ocr": null,
+          "a_verifier": false,
+          "motif_verification": null
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "- l 71056 m",
+          "confiance_ocr": 40.8,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        },
+        {
+          "designation": "",
+          "type": "donnee",
+          "valeur": "0511 T OE E DE E OR T E",
+          "confiance_ocr": 37.9,
+          "a_verifier": true,
+          "motif_verification": "confiance_faible"
+        }
+      ]
     }
   ]
 }

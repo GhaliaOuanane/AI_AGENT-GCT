@@ -490,21 +490,222 @@ def fuzzy_match_header(text: str, aliases: List[str], threshold: float = 0.7) ->
 # STUB: REMAINING ÉTAPES (TO BE COMPLETED)
 # ============================================================================
 
+def ocr_cell_content(img: np.ndarray, y_min: int, y_max: int, x_min: int, x_max: int) -> Tuple[str, float]:
+    """OCR contenu d'une cellule avec prétraitement."""
+    try:
+        margin = 2
+        y_min = max(0, y_min + margin)
+        y_max = min(img.shape[0], y_max - margin)
+        x_min = max(0, x_min + margin)
+        x_max = min(img.shape[1], x_max - margin)
+        
+        if y_max <= y_min or x_max <= x_min or y_min < 0 or x_min < 0:
+            return "", 0.0
+        
+        cell = img[int(y_min):int(y_max), int(x_min):int(x_max)].copy()
+        if cell.size == 0:
+            return "", 0.0
+        
+        h, w = cell.shape[:2]
+        if h < 5 or w < 5:
+            return "", 0.0
+        
+        # Upscale if small
+        if w < 150:
+            scale = max(2, int(150 / w))
+            cell = cv2.resize(cell, None, fx=scale, fy=scale, interpolation=cv2.INTER_CUBIC)
+        
+        if len(cell.shape) == 3 and cell.shape[2] >= 3:
+            gray = cv2.cvtColor(cell, cv2.COLOR_RGB2GRAY)
+        elif len(cell.shape) == 3:
+            gray = cv2.cvtColor(cell, cv2.COLOR_RGBA2GRAY)
+        else:
+            gray = cell
+        
+        if gray.size == 0:
+            return "", 0.0
+        
+        gray = cv2.GaussianBlur(gray, (3, 3), 0)
+        
+        # Binarization
+        binary = cv2.adaptiveThreshold(
+            gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+            cv2.THRESH_BINARY, blockSize=11, C=2
+        )
+        
+        # OCR
+        try:
+            data = pytesseract.image_to_data(
+                binary, output_type=pytesseract.Output.DICT,
+                lang='fra', config='--psm 6'
+            )
+        except:
+            return "", 0.0
+        
+        words = []
+        confs = []
+        for i in range(len(data['text'])):
+            text = data['text'][i].strip()
+            conf = int(data['conf'][i])
+            if text and conf > 30:
+                words.append(text)
+                confs.append(conf)
+        
+        if not words:
+            return "", 0.0
+        
+        text = ' '.join(words)
+        avg_conf = np.mean(confs) if confs else 0.0
+        
+        return text, avg_conf
+    
+    except Exception as e:
+        return "", 0.0
+
+
+def clean_ocr_text(text: str) -> str:
+    """Nettoyage OCR minimal."""
+    replacements = {
+        'ñ': 'n', 'ü': 'u', 'ö': 'o', 'ä': 'a',
+        'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+        'â': 'a', 'ê': 'e', 'î': 'i', 'ô': 'o', 'û': 'u',
+        'à': 'a', 'è': 'e', 'ì': 'i', 'ò': 'o', 'ù': 'u',
+    }
+    for old, new in replacements.items():
+        text = text.replace(old, new)
+    text = re.sub(r'\s+', ' ', text).strip()
+    return text
+
+
+def check_text_coherence(text: str) -> Optional[str]:
+    """Vérifie cohérence textuelle."""
+    if not text:
+        return None
+    
+    # Séquence sans voyelle >= 4 caractères
+    vowels = 'aeiouyàâäéèêëïîôöœuù'
+    for word in text.split():
+        word_alpha = ''.join(c.lower() for c in word if c.isalpha())
+        if len(word_alpha) >= 4 and not any(v in word_alpha for v in vowels):
+            return "texte_incoherent"
+    
+    # Symboles isolés suspects
+    if re.search(r'[|\\~]', text):
+        return "symbole_suspect"
+    
+    return None
+
+
+def is_section_row(des_text: str, spec_text: str) -> bool:
+    """
+    ÉTAPE 2bis: Détecte ligne de section.
+    Row where: Designation non-vide AND Specification vide
+    """
+    return (des_text.strip() != "" and spec_text.strip() == "")
+
+
 def extract_entries_from_table(img: np.ndarray, region: TableRegion, grid: GridInfo, 
                                header: HeaderInfo) -> Dict:
     """
     ÉTAPE 2bis + 3 + 4 + 5: Extract entries from table.
-    This is a stub - full implementation needed.
     """
-    entries = []
+    if not grid.rows or len(grid.cols) < 2:
+        return {
+            "entries": [],
+            "nb_lignes_designation": 0,
+            "nb_lignes_specification": 0,
+            "table_rejetee": True,
+            "motif_rejet": "structure_insuffisante"
+        }
     
-    # For now, return empty (will be implemented)
+    # Column boundaries (X coordinates)
+    col1_x_min, col1_x_max = grid.cols[0]
+    col2_x_min, col2_x_max = grid.cols[1] if len(grid.cols) > 1 else (col1_x_min, col1_x_max)
+    
+    # Adjust to region coordinates
+    col1_x_min += region.x_min
+    col1_x_max += region.x_min
+    col2_x_min += region.x_min
+    col2_x_max += region.x_min
+    
+    entries = []
+    des_lines_count = 0
+    spec_lines_count = 0
+    
+    # Skip first row (header)
+    data_rows = grid.rows[1:] if len(grid.rows) > 1 else []
+    
+    for row_idx, (y_min, y_max) in enumerate(data_rows):
+        # Adjust Y to image coordinates
+        y_min += region.y_min
+        y_max += region.y_min
+        
+        # OCR colonne 1 (Designation)
+        des_text, des_conf = ocr_cell_content(img, y_min, y_max, col1_x_min, col1_x_max)
+        des_text = clean_ocr_text(des_text)
+        
+        # OCR colonne 2 (Specification)
+        spec_text, spec_conf = ocr_cell_content(img, y_min, y_max, col2_x_min, col2_x_max)
+        spec_text = clean_ocr_text(spec_text)
+        
+        # Count non-empty lines
+        if des_text.strip():
+            des_lines_count += 1
+        if spec_text.strip():
+            spec_lines_count += 1
+        
+        # Skip empty rows
+        if not (des_text.strip() or spec_text.strip()):
+            continue
+        
+        # ÉTAPE 2bis: Section row detection
+        if is_section_row(des_text, spec_text):
+            entries.append({
+                "designation": des_text,
+                "type": "section",
+                "valeur": None,
+                "confiance_ocr": None,
+                "a_verifier": False,
+                "motif_verification": None
+            })
+            continue
+        
+        # Data row: validate confidence
+        a_verifier = False
+        motif = None
+        
+        if spec_conf < 70:
+            a_verifier = True
+            motif = "confiance_faible"
+        else:
+            coherence_issue = check_text_coherence(spec_text)
+            if coherence_issue:
+                a_verifier = True
+                motif = coherence_issue
+        
+        entries.append({
+            "designation": des_text,
+            "type": "donnee",
+            "valeur": spec_text,
+            "confiance_ocr": round(spec_conf, 1),
+            "a_verifier": a_verifier,
+            "motif_verification": motif
+        })
+    
+    # ÉTAPE 3: Validate structure (data rows only, not sections)
+    data_entries = [e for e in entries if e['type'] == 'donnee']
+    des_data_count = sum(1 for e in data_entries if e['designation'].strip())
+    spec_data_count = sum(1 for e in data_entries if e['valeur'] and e['valeur'].strip())
+    
+    table_rejetee = (des_data_count != spec_data_count and des_data_count > 0)
+    motif_rejet = "lignes_desalignees" if table_rejetee else None
+    
     return {
         "entries": entries,
-        "nb_lignes_designation": 0,
-        "nb_lignes_specification": 0,
-        "table_rejetee": False,
-        "motif_rejet": None
+        "nb_lignes_designation": des_lines_count,
+        "nb_lignes_specification": spec_lines_count,
+        "table_rejetee": table_rejetee,
+        "motif_rejet": motif_rejet
     }
 
 
@@ -565,7 +766,9 @@ def extract_specifications_v3(pdf_path: str) -> Optional[Dict]:
             
             # Étape 2: Header detection
             header = detect_headers(img, region, grid)
-            print(f"OK Grille détectée")
+            
+            # Étapes 2bis-5: Extract entries
+            extraction_result = extract_entries_from_table(img, region, grid, header)
             
             # Build table structure
             table_data = {
@@ -573,11 +776,18 @@ def extract_specifications_v3(pdf_path: str) -> Optional[Dict]:
                 "titre_detecte": "Non détecté",  # TODO: Detect from OCR
                 "pages": [page_num + 1],
                 "entete_colonne2_detecte": header.col2_text,
-                "table_rejetee": False,
-                "nb_lignes_designation": 0,
-                "nb_lignes_specification": 0,
-                "entries": []
+                "entete_colonne2_suspecte": header.col2_suspicious,
+                "table_rejetee": extraction_result["table_rejetee"],
+                "motif_rejet": extraction_result["motif_rejet"],
+                "nb_lignes_designation": extraction_result["nb_lignes_designation"],
+                "nb_lignes_specification": extraction_result["nb_lignes_specification"],
+                "entries": extraction_result["entries"]
             }
+            
+            n_entries = len(extraction_result["entries"])
+            n_flagged = sum(1 for e in extraction_result["entries"] if e.get("a_verifier"))
+            status = "REJET" if extraction_result["table_rejetee"] else f"{n_entries} entrées"
+            print(f"OK {status} ({n_flagged} flagged)")
             
             all_tables.append(table_data)
             table_counter += 1
