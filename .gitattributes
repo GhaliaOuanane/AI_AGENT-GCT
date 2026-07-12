@@ -1,0 +1,17 @@
+# Exclure tools/ des statistiques de langages GitHub
+tools/** linguist-vendored
+
+# Exclure archive/ des statistiques
+archive/** linguist-vendored
+
+# Exclure fichiers de données
+*.json linguist-vendored
+*.txt linguist-vendored
+*.md linguist-documentation
+
+# Détecter Python comme langage principal
+*.py linguist-detectable=true
+*.py linguist-language=Python
+
+# Fichiers batch Windows (scripts d'installation)
+*.bat linguist-language=Batchfile
