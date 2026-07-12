@@ -1,10 +1,10 @@
 from pathlib import Path
 import pytesseract
 
-from pdf_reader import open_pdf
-from pdf_writer import write_selected_pages
-from page_selector import select_target_pages
-from column_extractor import verify_tesseract_setup, to_json
+from pdf_extraction.core.pdf_reader import open_pdf
+from pdf_extraction.core.pdf_writer import write_selected_pages
+from pdf_extraction.core.page_selector import select_target_pages
+from pdf_extraction.extractors.column_extractor import verify_tesseract_setup, to_json
 
 # Configure Tesseract path for Windows
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"

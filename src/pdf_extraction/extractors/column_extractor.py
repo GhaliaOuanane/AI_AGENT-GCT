@@ -26,7 +26,7 @@ from sklearn.cluster import KMeans
 from pypdf import PdfReader
 import sys
 sys.path.append(str(Path(__file__).parent))
-from clean_ocr import clean_ocr_text
+from pdf_extraction.utils.clean_ocr import clean_ocr_text
 
 
 # ============================================================================

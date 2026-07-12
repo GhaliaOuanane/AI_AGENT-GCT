@@ -14,7 +14,7 @@ import pytesseract
 # Configurer Tesseract
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
-from second_column_extractor import extract_all_specifications
+from pdf_extraction.extractors.second_column_extractor import extract_all_specifications
 
 
 def filter_noisy_pages(results, noise_threshold=0.3):

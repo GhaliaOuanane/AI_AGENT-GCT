@@ -19,9 +19,9 @@ import pytesseract
 # Configurer Tesseract
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
-from extract_specifications_main import filter_noisy_pages
-from second_column_extractor import extract_all_specifications
-from column_extractor import verify_tesseract_setup
+from pdf_extraction.extractors.extract_specifications_main import filter_noisy_pages
+from pdf_extraction.extractors.second_column_extractor import extract_all_specifications
+from pdf_extraction.extractors.column_extractor import verify_tesseract_setup
 
 
 def main():
