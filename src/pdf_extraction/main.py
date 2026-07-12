@@ -24,8 +24,17 @@ def _find_input_pdf() -> Path:
 
 
 def _resolve_poppler_path() -> str | None:
-    candidate = Path(__file__).resolve().parent.parent / "tools" / "poppler-26.02.0" / "Library" / "bin"
-    return str(candidate) if candidate.exists() else None
+    # Chemin depuis src/pdf_extraction/main.py vers tools/
+    candidate = Path(__file__).resolve().parent.parent.parent / "tools" / "poppler-26.02.0" / "Library" / "bin"
+    if candidate.exists():
+        return str(candidate)
+    
+    # Fallback: chemin absolu
+    fallback = Path(r"C:\Users\ghali\OneDrive\Desktop\AI_AGENT GCT\tools\poppler-26.02.0\Library\bin")
+    if fallback.exists():
+        return str(fallback)
+    
+    return None
 
 
 def main():
