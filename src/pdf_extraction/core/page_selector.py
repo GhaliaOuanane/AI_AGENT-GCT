@@ -3,6 +3,7 @@ Module de sélection de pages basé sur la détection directe d'en-têtes de tab
 
 Détecte deux modèles d'en-tête spécifiques :
 - Modèle 1 : Désignation | Spécification | Proposition
+  Variantes acceptées pour colonne 2: "Spécification", "Exigé ou à préciser", "Exigé", "À préciser"
 - Modèle 2 : Composants de l'offre | Caractéristiques techniques minimales | Proposition
 
 Une fois un en-tête détecté, capture les pages suivantes jusqu'à la fin du tableau.
@@ -49,7 +50,7 @@ def _matches_header_model_1(text: str) -> bool:
     """
     Détecte le Modèle 1 d'en-tête de tableau :
     - Désignation
-    - Spécification
+    - Spécification (ou variantes: "Exigé ou à préciser", "Exigé", "À préciser")
     - Proposition
     
     Retourne True si AU MOINS 2 des 3 colonnes sont présentes.
@@ -70,8 +71,12 @@ def _matches_header_model_1(text: str) -> bool:
     
     # Recherche de "specification" (ou variations)
     # Tolère: specificatlon, specifjcation, spec1fication, etc.
+    # Nouvelles variantes: "Exigé ou à préciser", "Exigé", "à préciser"
     has_specification = bool(re.search(
-        r"\bspec[il1][fj][il1][cf]at[io0ln]+\b",
+        r"\bspec[il1][fj][il1][cf]at[io0ln]+\b|"
+        r"\bexige\s+(ou\s+)?a\s+preciser\b|"
+        r"\bexige\b|"
+        r"\ba\s+preciser\b",
         text,
         re.IGNORECASE
     ))
@@ -157,10 +162,10 @@ def _looks_like_table_content(text: str) -> bool:
         return True
     
     # Critère 2 : PRÉSENCE EXPLICITE de mots-clés de tableau cible
-    # Model 1: "specification" ou "designation"
+    # Model 1: "specification" ou "designation" ou "exigé" ou "à préciser"
     # Model 2: "caracteristiques" ou "propositions"
     has_model1_keywords = bool(re.search(
-        r"\b(?:specification|designation)\b",
+        r"\b(?:specification|designation|exige|a\s+preciser)\b",
         text,
         re.IGNORECASE
     ))
