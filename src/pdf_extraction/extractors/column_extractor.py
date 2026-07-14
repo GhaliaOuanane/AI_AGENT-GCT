@@ -297,6 +297,17 @@ MODELE_1_HEADERS = {
 
 
 # =====================================================================
+# TEMPLATE 1 VARIANTE — Exigé ou à préciser
+#   Désignation | Exigé ou à préciser | Proposition
+# =====================================================================
+MODELE_1_VARIANT_HEADERS = {
+    "designation":   "designation",
+    "specification": "exige ou a preciser",
+    "proposition":   "proposition",
+}
+
+
+# =====================================================================
 # TEMPLATE 2 — en-têtes observés sur le Lot 2 (ordinateurs portables)
 #   Composants de l'offre | Caractéristiques techniques minimales | Propositions
 # =====================================================================
@@ -307,18 +318,19 @@ MODELE_2_HEADERS = {
 }
 
 
-KNOWN_TEMPLATES = [MODELE_1_HEADERS, MODELE_2_HEADERS]
+KNOWN_TEMPLATES = [MODELE_1_HEADERS, MODELE_1_VARIANT_HEADERS, MODELE_2_HEADERS]
 
 
 FUZZY_ALIASES = {
     "designation":   ["designation", "composants", "produit", "article"],
     "specification": ["specification", "caracteristiques techniques",
-                       "caracteristiques minimales", "exigences techniques"],
+                       "caracteristiques minimales", "exigences techniques",
+                       "exige ou a preciser", "exige", "a preciser"],
     "proposition":   ["proposition", "offre proposee", "reponse fournisseur"],
 }
 
 
-def match_header(ocr_text: str, fuzzy_threshold: int = 75) -> Tuple[Optional[str], int, str]:
+def match_header(ocr_text: str, fuzzy_threshold: int = 75) -> Tuple[Optional[str], int, str, str]:
     """
     Match un texte OCR contre les templates d'en-têtes connus.
     
@@ -327,7 +339,10 @@ def match_header(ocr_text: str, fuzzy_threshold: int = 75) -> Tuple[Optional[str
         fuzzy_threshold: Seuil pour le fuzzy fallback
     
     Returns:
-        Tuple (role, score, method) où method est "exact", "exact_tolerant", "fuzzy" ou "no_match"
+        Tuple (role, score, method, detected_label) où :
+        - role est "specification", "designation" ou "proposition"
+        - method est "exact", "exact_tolerant", "fuzzy" ou "no_match"
+        - detected_label est le nom réel détecté (ex: "Exigé ou à préciser", "Spécification")
     """
     norm = normalize(ocr_text)
     
@@ -335,27 +350,30 @@ def match_header(ocr_text: str, fuzzy_threshold: int = 75) -> Tuple[Optional[str
     for template in KNOWN_TEMPLATES:
         for role, exact_label in template.items():
             if norm == exact_label:
-                return role, 100, "exact"
+                # Retourner le label original nettoyé
+                detected_label = ocr_text.strip()
+                return role, 100, "exact", detected_label
     
     # Niveau 1bis : match tolérant à une petite erreur OCR
     for template in KNOWN_TEMPLATES:
         for role, exact_label in template.items():
             score = fuzz.ratio(norm, exact_label)
             if score >= 90:
-                return role, score, "exact_tolerant"
+                detected_label = ocr_text.strip()
+                return role, score, "exact_tolerant", detected_label
     
     # Niveau 2 : fuzzy fallback (3e template inconnu)
-    best_role, best_score = None, 0
+    best_role, best_score, best_label = None, 0, ""
     for role, aliases in FUZZY_ALIASES.items():
         for alias in aliases:
             score = fuzz.partial_ratio(norm, alias)
             if score > best_score:
-                best_role, best_score = role, score
+                best_role, best_score, best_label = role, score, ocr_text.strip()
     
     if best_score >= fuzzy_threshold:
-        return best_role, best_score, "fuzzy"
+        return best_role, best_score, "fuzzy", best_label
     
-    return None, best_score, "no_match"
+    return None, best_score, "no_match", ""
 
 
 # ============================================================================
@@ -442,10 +460,12 @@ def extract_column(pdf_path: str | Path, page_num: int, target_role: str = "spec
     
     # Étape 5: Mapping sémantique des en-têtes
     role_to_col_idx = {}
+    detected_headers = {}  # Stocker les noms détectés {role: detected_label}
     for idx, cell_text in enumerate(header_cells):
-        role, score, method = match_header(cell_text)
+        role, score, method, detected_label = match_header(cell_text)
         if role:
             role_to_col_idx[role] = idx
+            detected_headers[role] = detected_label
         result["warnings"].append(f"col{idx}: '{cell_text}' -> {role} ({score}%, {method})")
     
     if target_role not in role_to_col_idx:
@@ -453,7 +473,9 @@ def extract_column(pdf_path: str | Path, page_num: int, target_role: str = "spec
         return result
     
     col_idx = role_to_col_idx[target_role]
+    result["detected_header_name"] = detected_headers.get(target_role, target_role)
     print(f"[DEBUG] Page {page_num}: Target column '{target_role}' at index {col_idx}")
+    print(f"[DEBUG] Detected header name: {result['detected_header_name']}")
     
     # Étape 6: OCR des cellules de données
     for row_idx in range(1, len(row_bounds) - 1):
@@ -521,18 +543,24 @@ def extract_structured_rows(pdf_path: str | Path) -> List[Dict]:
         
         # Étape 4: Mapping sémantique des en-têtes
         role_to_col_idx = {}
+        detected_headers = {}  # Stocker les noms détectés {role: detected_label}
         modele_detecte = "unknown"
         for idx, cell_text in enumerate(header_cells):
-            role, score, method = match_header(cell_text)
+            role, score, method, detected_label = match_header(cell_text)
             if role:
                 role_to_col_idx[role] = idx
+                detected_headers[role] = detected_label
                 if method in ["exact", "exact_tolerant"]:
                     # Déterminer le modèle basé sur le premier match exact
+                    norm_text = normalize(cell_text)
                     if role == "designation":
-                        if normalize(cell_text) == "designation":
+                        if norm_text == "designation":
                             modele_detecte = "modele_1"
-                        elif normalize(cell_text) == "composants de l offre":
+                        elif norm_text == "composants de l offre":
                             modele_detecte = "modele_2"
+                    elif role == "specification":
+                        if "exige" in norm_text or "preciser" in norm_text:
+                            modele_detecte = "modele_1_variant"
         
         # Étape 5: OCR des cellules de données pour les 3 colonnes
         for row_idx in range(1, len(row_bounds) - 1):
@@ -549,7 +577,8 @@ def extract_structured_rows(pdf_path: str | Path) -> List[Dict]:
                     "specification": 0,
                     "proposition": 0
                 },
-                "methode_mapping_headers": "unknown"
+                "methode_mapping_headers": "unknown",
+                "detected_headers": detected_headers  # Ajouter les noms détectés
             }
             
             # OCRiser chaque colonne si elle est mappée
@@ -570,7 +599,7 @@ def extract_structured_rows(pdf_path: str | Path) -> List[Dict]:
             
             # Déterminer la méthode de mapping
             for idx, cell_text in enumerate(header_cells):
-                role, score, method = match_header(cell_text)
+                role, score, method, detected_label = match_header(cell_text)
                 if role and method in ["exact", "exact_tolerant"]:
                     row_data["methode_mapping_headers"] = method
                     break
@@ -586,16 +615,49 @@ def extract_structured_rows(pdf_path: str | Path) -> List[Dict]:
     return results
 
 
-def to_json(results: List[Dict], output_path: str | Path = "data/output/extraction.json") -> None:
+def to_json(results: List[Dict], output_path: str | Path = "data/output/extraction.json", use_detected_headers: bool = True) -> None:
     """
     Sauvegarde les résultats en JSON structuré.
     
     Args:
         results: Liste de dictionnaires structurés
         output_path: Chemin du fichier de sortie
+        use_detected_headers: Si True, utilise les noms de headers détectés au lieu des rôles génériques
     """
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
+    
+    # Si demandé, remplacer les noms de colonnes par les noms détectés
+    if use_detected_headers:
+        processed_results = []
+        for row in results:
+            new_row = row.copy()
+            
+            # Si detected_headers existe, créer de nouvelles clés avec les noms détectés
+            if "detected_headers" in row and row["detected_headers"]:
+                detected = row["detected_headers"]
+                
+                # Créer une nouvelle entrée avec les noms personnalisés
+                if "specification" in detected and detected["specification"]:
+                    # Ajouter une clé avec le nom détecté
+                    header_name = detected["specification"]
+                    new_row[header_name] = new_row.get("specification", "")
+                    # Optionnel: supprimer l'ancienne clé "specification"
+                    # del new_row["specification"]
+                
+                if "designation" in detected and detected["designation"]:
+                    header_name = detected["designation"]
+                    if header_name != "designation":
+                        new_row[header_name] = new_row.get("designation", "")
+                
+                if "proposition" in detected and detected["proposition"]:
+                    header_name = detected["proposition"]
+                    if header_name != "proposition":
+                        new_row[header_name] = new_row.get("proposition", "")
+            
+            processed_results.append(new_row)
+        
+        results = processed_results
     
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
