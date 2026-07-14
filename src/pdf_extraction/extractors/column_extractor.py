@@ -622,38 +622,51 @@ def to_json(results: List[Dict], output_path: str | Path = "data/output/extracti
     Args:
         results: Liste de dictionnaires structurés
         output_path: Chemin du fichier de sortie
-        use_detected_headers: Si True, utilise les noms de headers détectés au lieu des rôles génériques
+        use_detected_headers: Si True, REMPLACE les clés génériques par les noms de headers détectés
     """
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     
-    # Si demandé, remplacer les noms de colonnes par les noms détectés
+    # Si demandé, REMPLACER les noms génériques par les noms détectés
     if use_detected_headers:
         processed_results = []
         for row in results:
-            new_row = row.copy()
+            new_row = {}
             
-            # Si detected_headers existe, créer de nouvelles clés avec les noms détectés
+            # Copier d'abord tous les champs qui ne sont pas des colonnes
+            for key, value in row.items():
+                if key not in ["designation", "specification", "proposition"]:
+                    new_row[key] = value
+            
+            # Si detected_headers existe, utiliser les noms détectés
             if "detected_headers" in row and row["detected_headers"]:
                 detected = row["detected_headers"]
                 
-                # Créer une nouvelle entrée avec les noms personnalisés
-                if "specification" in detected and detected["specification"]:
-                    # Ajouter une clé avec le nom détecté
-                    header_name = detected["specification"]
-                    new_row[header_name] = new_row.get("specification", "")
-                    # Optionnel: supprimer l'ancienne clé "specification"
-                    # del new_row["specification"]
-                
+                # REMPLACER "designation" par le nom détecté
                 if "designation" in detected and detected["designation"]:
                     header_name = detected["designation"]
-                    if header_name != "designation":
-                        new_row[header_name] = new_row.get("designation", "")
+                    new_row[header_name] = row.get("designation", "")
+                else:
+                    new_row["designation"] = row.get("designation", "")
                 
+                # REMPLACER "specification" par le nom détecté
+                if "specification" in detected and detected["specification"]:
+                    header_name = detected["specification"]
+                    new_row[header_name] = row.get("specification", "")
+                else:
+                    new_row["specification"] = row.get("specification", "")
+                
+                # REMPLACER "proposition" par le nom détecté
                 if "proposition" in detected and detected["proposition"]:
                     header_name = detected["proposition"]
-                    if header_name != "proposition":
-                        new_row[header_name] = new_row.get("proposition", "")
+                    new_row[header_name] = row.get("proposition", "")
+                else:
+                    new_row["proposition"] = row.get("proposition", "")
+            else:
+                # Pas de detected_headers, garder les noms génériques
+                new_row["designation"] = row.get("designation", "")
+                new_row["specification"] = row.get("specification", "")
+                new_row["proposition"] = row.get("proposition", "")
             
             processed_results.append(new_row)
         

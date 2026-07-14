@@ -4,7 +4,7 @@ import pytesseract
 from pdf_extraction.core.pdf_reader import open_pdf
 from pdf_extraction.core.pdf_writer import write_selected_pages
 from pdf_extraction.core.page_selector import select_target_pages
-from pdf_extraction.extractors.column_extractor import verify_tesseract_setup, to_json
+from pdf_extraction.extractors.column_extractor import verify_tesseract_setup, to_json, extract_structured_rows
 
 # Configure Tesseract path for Windows
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
@@ -77,55 +77,39 @@ def main():
 
     # Extraction structurée des lignes avec alignement des 3 colonnes
     print("\n" + "=" * 60)
-    print("EXTRACTION STRUCTURÉE DES LIGNES (V2 PROVEN)")
+    print("EXTRACTION STRUCTURÉE DES LIGNES (avec détection de headers)")
     print("=" * 60)
     
-    # CORRECTION: Utiliser l'extraction V2 qui marche (ratio-based, page-level)
     print(f"\nExtraction depuis : {output_path} (pages cibles uniquement)")
-    print("Utilisation de l'algorithme V2 (ratio-based, prouvé avec 132 entries)\n")
+    print("Utilisation de l'algorithme avec détection automatique des headers\n")
     
-    # Import V2 extraction
-    import sys
-    sys.path.insert(0, str(Path(__file__).parent.parent))
-    from extract_specifications_production import extract_all_specifications as extract_v2
+    # Import du nouvel extracteur avec détection de headers
+    from pdf_extraction.extractors.column_extractor import extract_structured_rows
     
-    # Temporairement pointer vers pages_cibles.pdf
-    import shutil
-    temp_backup = None
-    pages_cibles_in_output = Path(output_path)
+    # Extraction avec détection automatique des headers
+    results = extract_structured_rows(output_path)
     
-    # V2 cherche pages_cibles.pdf dans data/output (déjà là)
-    v2_result = extract_v2()
-    
-    if v2_result:
-        # Convertir format V2 vers format extraction.json
-        results = []
-        for page_data in v2_result['pages']:
-            for entry in page_data['entries']:
-                results.append({
-                    "fichier": v2_result['document'],
-                    "page": page_data['page'],
-                    "lot": None,
-                    "modele_detecte": "v2_ratio_based",
-                    "designation": entry['designation'],
-                    "specification": entry['valeur'],
-                    "proposition": "",
-                    "confiance_ocr": {
-                        "designation": 0,
-                        "specification": entry['confiance_ocr'],
-                        "proposition": 0
-                    },
-                    "methode_mapping_headers": "ratio_based"
-                })
-        
-        # Export JSON uniquement
-        to_json(results, "data/output/extraction.json")
+    if results:
+        # Export JSON avec les noms de headers détectés
+        to_json(results, "data/output/extraction.json", use_detected_headers=True)
         
         # Résumé
         print(f"\n[OK] Extraction completee:")
         print(f"   Total entries: {len(results)}")
         print(f"   Source: {output_path}")
         print(f"   Output: data/output/extraction.json")
+        
+        # Afficher le modèle détecté
+        if results and "modele_detecte" in results[0]:
+            modele = results[0]["modele_detecte"]
+            print(f"   Modèle détecté: {modele}")
+        
+        # Afficher les headers détectés
+        if results and "detected_headers" in results[0]:
+            headers = results[0]["detected_headers"]
+            print(f"   Headers détectés:")
+            for role, name in headers.items():
+                print(f"      - {role}: '{name}'")
     else:
         print("[WARN] Aucune ligne extraite")
 
