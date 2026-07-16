@@ -12,11 +12,11 @@
     "methode_mapping_headers": "exact_tolerant",
     "detected_headers": {
       "designation": "Désiagnation",
-      "specification": "Exiaé ou à préciser",
+      "specification": "Exigé ou à préciser",
       "proposition": "Proposition"
     },
     "Désiagnation": "Marque et Modèle",
-    "Exiaé ou à préciser": "A préciser",
+    "Exigé ou à préciser": "A préciser",
     "Proposition": "EPSON"
   },
   {
@@ -32,11 +32,11 @@
     "methode_mapping_headers": "exact_tolerant",
     "detected_headers": {
       "designation": "Désiagnation",
-      "specification": "Exiaé ou à préciser",
+      "specification": "Exigé ou à préciser",
       "proposition": "Proposition"
     },
     "Désiagnation": "Fonctions Imprimante : Impression,\nnumérisation et copie",
-    "Exiaé ou à préciser": "Exigé",
+    "Exigé ou à préciser": "Exigé",
     "Proposition": "Impression, copie"
   },
   {
@@ -52,11 +52,11 @@
     "methode_mapping_headers": "exact_tolerant",
     "detected_headers": {
       "designation": "Désiagnation",
-      "specification": "Exiaé ou à préciser",
+      "specification": "Exigé ou à préciser",
       "proposition": "Proposition"
     },
     "Désiagnation": "Technologie d’impression :\nJet d’encre",
-    "Exiaé ou à préciser": "Exigé",
+    "Exigé ou à préciser": "Exigé",
     "Proposition": "Jet d’encre"
   },
   {
@@ -72,11 +72,11 @@
     "methode_mapping_headers": "exact_tolerant",
     "detected_headers": {
       "designation": "Désiagnation",
-      "specification": "Exiaé ou à préciser",
+      "specification": "Exigé ou à préciser",
       "proposition": "Proposition"
     },
     "Désiagnation": "Vitesse d’impression :\n39 pages/min",
-    "Exiaé ou à préciser": "Exigé",
+    "Exigé ou à préciser": "Exigé",
     "Proposition": "39"
   },
   {
@@ -92,11 +92,11 @@
     "methode_mapping_headers": "exact_tolerant",
     "detected_headers": {
       "designation": "Désiagnation",
-      "specification": "Exiaé ou à préciser",
+      "specification": "Exigé ou à préciser",
       "proposition": "Proposition"
     },
     "Désiagnation": "Recto/verso : automatique",
-    "Exiaé ou à préciser": "Exigé",
+    "Exigé ou à préciser": "Exigé",
     "Proposition": "Automatique"
   },
   {
@@ -112,11 +112,11 @@
     "methode_mapping_headers": "exact_tolerant",
     "detected_headers": {
       "designation": "Désiagnation",
-      "specification": "Exiaé ou à préciser",
+      "specification": "Exigé ou à préciser",
       "proposition": "Proposition"
     },
     "Désiagnation": "Formats de npanier : A4",
-    "Exiaé ou à préciser": "Exiaé",
+    "Exigé ou à préciser": "Exiaé",
     "Proposition": "A 1 AN"
   },
   {
@@ -132,11 +132,11 @@
     "methode_mapping_headers": "exact_tolerant",
     "detected_headers": {
       "designation": "Désiagnation",
-      "specification": "Exiaé ou à préciser",
+      "specification": "Exigé ou à préciser",
       "proposition": "Proposition"
     },
     "Désiagnation": "",
-    "Exiaé ou à préciser": "",
+    "Exigé ou à préciser": "",
     "Proposition": "L"
   },
   {
@@ -152,11 +152,11 @@
     "methode_mapping_headers": "exact_tolerant",
     "detected_headers": {
       "designation": "Désiagnation",
-      "specification": "Exiaé ou à préciser",
+      "specification": "Exigé ou à préciser",
       "proposition": "Proposition"
     },
     "Désiagnation": "Alimentation papier standard : 250\nfeuilles",
-    "Exiaé ou à préciser": "Exigé",
+    "Exigé ou à préciser": "Exigé",
     "Proposition": "250"
   },
   {
@@ -172,11 +172,11 @@
     "methode_mapping_headers": "exact_tolerant",
     "detected_headers": {
       "designation": "Désiagnation",
-      "specification": "Exiaé ou à préciser",
+      "specification": "Exigé ou à préciser",
       "proposition": "Proposition"
     },
     "Désiagnation": "Résolution Impression : 1200*2400",
-    "Exiaé ou à préciser": "Exiaé",
+    "Exigé ou à préciser": "Exiaé",
     "Proposition": "1 JANX19NN"
   },
   {
@@ -192,11 +192,11 @@
     "methode_mapping_headers": "exact_tolerant",
     "detected_headers": {
       "designation": "Désiagnation",
-      "specification": "Exiaé ou à préciser",
+      "specification": "Exigé ou à préciser",
       "proposition": "Proposition"
     },
     "Désiagnation": "DPI",
-    "Exiaé ou à préciser": "",
+    "Exigé ou à préciser": "",
     "Proposition": "4T E SE"
   },
   {
@@ -212,11 +212,11 @@
     "methode_mapping_headers": "exact_tolerant",
     "detected_headers": {
       "designation": "Désiagnation",
-      "specification": "Exiaé ou à préciser",
+      "specification": "Exigé ou à préciser",
       "proposition": "Proposition"
     },
     "Désiagnation": "Résolution de numérisation :\n1200*2400 DPI",
-    "Exiaé ou à préciser": "Exigé",
+    "Exigé ou à préciser": "Exigé",
     "Proposition": "1200#*1200"
   },
   {
@@ -232,11 +232,11 @@
     "methode_mapping_headers": "exact_tolerant",
     "detected_headers": {
       "designation": "Désiagnation",
-      "specification": "Exiaé ou à préciser",
+      "specification": "Exigé ou à préciser",
       "proposition": "Proposition"
     },
     "Désiagnation": "Capacité bouteille encre : 5500\npages",
-    "Exiaé ou à préciser": "Exigé",
+    "Exigé ou à préciser": "Exigé",
     "Proposition": "6500 p"
   },
   {
@@ -252,11 +252,11 @@
     "methode_mapping_headers": "exact_tolerant",
     "detected_headers": {
       "designation": "Désiagnation",
-      "specification": "Exiaé ou à préciser",
+      "specification": "Exigé ou à préciser",
       "proposition": "Proposition"
     },
     "Désiagnation": "Encre fournis : Deux (02) bouteilles\ncachetées par imprimante",
-    "Exiaé ou à préciser": "Exigé",
+    "Exigé ou à préciser": "Exigé",
     "Proposition": "oui"
   },
   {
@@ -272,11 +272,11 @@
     "methode_mapping_headers": "exact_tolerant",
     "detected_headers": {
       "designation": "Désiagnation",
-      "specification": "Exiaé ou à préciser",
+      "specification": "Exigé ou à préciser",
       "proposition": "Proposition"
     },
     "Désiagnation": "Connexions : Ethernet,USB, WIFI",
-    "Exiaé ou à préciser": "Exigé",
+    "Exigé ou à préciser": "Exigé",
     "Proposition": "Oui"
   },
   {
@@ -292,11 +292,11 @@
     "methode_mapping_headers": "exact_tolerant",
     "detected_headers": {
       "designation": "Désiagnation",
-      "specification": "Exiaé ou à préciser",
+      "specification": "Exigé ou à préciser",
       "proposition": "Proposition"
     },
     "Désiagnation": "Garantie : 12 mois",
-    "Exiaé ou à préciser": "Exigé",
+    "Exigé ou à préciser": "Exigé",
     "Proposition": "oui"
   }
 ]

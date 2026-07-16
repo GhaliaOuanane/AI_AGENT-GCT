@@ -1,17 +1,19 @@
 ﻿"""
 Module de sélection de pages basé sur la détection directe d'en-têtes de tableaux.
 
-Détecte deux modèles d'en-tête spécifiques :
-- Modèle 1 : Désignation | Spécification | Proposition
-  Variantes acceptées pour colonne 2: "Spécification", "Exigé ou à préciser", "Exigé", "À préciser"
-- Modèle 2 : Composants de l'offre | Caractéristiques techniques minimales | Proposition
-
-Une fois un en-tête détecté, capture les pages suivantes jusqu'à la fin du tableau.
+Utilise detection_rules.py comme source unique de vérité pour les règles.
 """
 
 import re
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Optional, List, Tuple
+
+from pdf_extraction.core.detection_rules import (
+    evaluate_page,
+    looks_like_table_content,
+    looks_like_note_page,
+    PageContext
+)
 
 
 def _normalize(text: str) -> str:
@@ -268,54 +270,50 @@ def select_target_pages(
     use_ocr: bool = False,
     ocr_func: Optional[Callable[..., str]] = None,
     poppler_path: Optional[str] = None,
-):
+) -> List[Tuple[Any, PageContext]]:
     """
-    Sélectionne les pages contenant les tableaux ciblés.
+    Sélectionne les pages cibles contenant des tableaux de spécifications.
     
-    Logique de détection directe :
-    1. Parcourt chaque page du PDF
-    2. Recherche les en-têtes correspondant aux modèles 1 ou 2
-    3. Une fois un en-tête détecté, capture les pages suivantes jusqu'à la fin du tableau
-    
-    Modèle 1 : Désignation | Spécification | Proposition
-    Modèle 2 : Composants de l'offre | Caractéristiques techniques minimales | Proposition
+    Utilise detection_rules.evaluate_page() comme source unique de vérité.
     
     Args:
         reader: Lecteur PDF (pypdf.PdfReader)
-        pdf_path: Chemin vers le fichier PDF (requis si use_ocr=True)
-        use_ocr: Si True, utilise l'OCR pour les pages sans texte
+        pdf_path: Chemin du fichier PDF
+        use_ocr: Si True, utilise l'OCR pour l'extraction de texte
         ocr_func: Fonction OCR personnalisée (optionnel)
-        poppler_path: Chemin vers les binaires Poppler (pour OCR)
+        poppler_path: Chemin vers Poppler (pour OCR)
     
     Returns:
-        Liste des pages sélectionnées
+        Liste de tuples (page, PageContext) pour les pages sélectionnées
     """
+    if use_ocr and ocr_func is None:
+        from pdf_extraction.core.ocr_reader import ocr_page
+        ocr_func = ocr_page
+    
     selected_pages = []
-    in_table = False
-
-    for page_number, page in enumerate(reader.pages):
-        raw_text = _page_text(page, page_number, pdf_path, use_ocr, ocr_func, poppler_path)
-        text = _normalize(raw_text)
-
-        # Détection directe d'en-tête (Modèle 1 ou Modèle 2)
-        page_has_header = _has_table_header(text)
+    in_table_sequence = False
+    
+    for page_num, page in enumerate(reader.pages):
+        # ÉVALUATION UNIQUE DES RÈGLES (source de vérité)
+        context = evaluate_page(page, page_num, pdf_path)
         
-        if page_has_header:
-            # En-tête détecté : début de tableau
-            in_table = True
-            selected_pages.append(page)
+        # Cas 1: En-tête de tableau détecté
+        if context.has_valid_header:
+            selected_pages.append((page, context))
+            in_table_sequence = True
             continue
-
-        # Si on est dans un tableau, continuer à capturer les pages suivantes
-        if in_table:
-            # Nombre de lignes de la page
-            line_count = len([line for line in text.splitlines() if line.strip()])
+        
+        # Cas 2: Dans une séquence de tableau (continuation)
+        if in_table_sequence:
+            # Vérifier si c'est du contenu de tableau ou page de notes
+            if looks_like_table_content(context.normalized_text) or looks_like_note_page(context.normalized_text):
+                selected_pages.append((page, context))
+                continue
             
-            # Détection de contenu tabulaire (strict pour éviter brochures)
-            page_is_table_content = _looks_like_table_content(text)
-            
-            # Détection de page de notes
-            page_is_note = _looks_like_note_page(text)
+            # Fin de la séquence de tableau
+            in_table_sequence = False
+    
+    return selected_pages
             
             # Détection de fin de tableau
             page_is_end = _looks_like_end_of_table(text)

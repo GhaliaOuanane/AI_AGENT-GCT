@@ -1,0 +1,30 @@
+[
+  {
+    "filename": "Discount Info.PDF",
+    "filepath": "data\\input\\Discount Info.PDF",
+    "rejected_at": "2026-07-16T08:23:49.489271",
+    "reason": "document_scanne_texte_insuffisant",
+    "metrics": {
+      "total_pages": 24,
+      "pages_with_text": 0,
+      "text_coverage_percent": 0.0,
+      "avg_chars_per_page": 0.0,
+      "pages_with_large_images": 24,
+      "has_bitmap_fonts": false
+    }
+  },
+  {
+    "filename": "Discount Info.PDF",
+    "filepath": "data\\input\\Discount Info.PDF",
+    "rejected_at": "2026-07-16T08:23:51.062252",
+    "reason": "document_scanne_texte_insuffisant",
+    "metrics": {
+      "total_pages": 24,
+      "pages_with_text": 0,
+      "text_coverage_percent": 0.0,
+      "avg_chars_per_page": 0.0,
+      "pages_with_large_images": 24,
+      "has_bitmap_fonts": false
+    }
+  }
+]

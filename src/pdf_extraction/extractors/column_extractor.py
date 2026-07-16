@@ -329,6 +329,49 @@ FUZZY_ALIASES = {
     "proposition":   ["proposition", "offre proposee", "reponse fournisseur"],
 }
 
+# Valeurs canoniques pour la normalisation de la 2ème colonne uniquement
+CANONICAL_SPECIFICATION_VALUES = [
+    "Spécification",
+    "Exigé ou à préciser",
+    "Caractéristiques techniques minimales"
+]
+
+
+def _normalize_specification_label(ocr_text: str, threshold: float = 0.6) -> str:
+    """
+    Normalise le texte OCR de la 2ème colonne vers une valeur canonique.
+    
+    Args:
+        ocr_text: Texte OCR brut (ex: "Exiaé ou à préciser")
+        threshold: Seuil de similarité (0.0 à 1.0)
+    
+    Returns:
+        Valeur canonique la plus proche ou texte original si aucun match
+    """
+    norm_ocr = normalize(ocr_text)
+    
+    best_match = None
+    best_score = 0.0
+    
+    for canonical in CANONICAL_SPECIFICATION_VALUES:
+        norm_canonical = normalize(canonical)
+        # Utiliser ratio pour correspondance exacte, partial_ratio pour sous-chaînes
+        score = max(
+            fuzz.ratio(norm_ocr, norm_canonical) / 100.0,
+            fuzz.partial_ratio(norm_ocr, norm_canonical) / 100.0
+        )
+        
+        if score > best_score:
+            best_score = score
+            best_match = canonical
+    
+    # Retourner la valeur canonique si le score dépasse le seuil
+    if best_score >= threshold:
+        return best_match
+    
+    # Sinon retourner le texte original (ne rien casser)
+    return ocr_text.strip()
+
 
 def match_header(ocr_text: str, fuzzy_threshold: int = 75) -> Tuple[Optional[str], int, str, str]:
     """
@@ -350,8 +393,11 @@ def match_header(ocr_text: str, fuzzy_threshold: int = 75) -> Tuple[Optional[str
     for template in KNOWN_TEMPLATES:
         for role, exact_label in template.items():
             if norm == exact_label:
-                # Retourner le label original nettoyé
-                detected_label = ocr_text.strip()
+                # Normaliser uniquement si c'est la 2ème colonne (specification)
+                if role == "specification":
+                    detected_label = _normalize_specification_label(ocr_text)
+                else:
+                    detected_label = ocr_text.strip()
                 return role, 100, "exact", detected_label
     
     # Niveau 1bis : match tolérant à une petite erreur OCR
@@ -359,7 +405,11 @@ def match_header(ocr_text: str, fuzzy_threshold: int = 75) -> Tuple[Optional[str
         for role, exact_label in template.items():
             score = fuzz.ratio(norm, exact_label)
             if score >= 90:
-                detected_label = ocr_text.strip()
+                # Normaliser uniquement si c'est la 2ème colonne (specification)
+                if role == "specification":
+                    detected_label = _normalize_specification_label(ocr_text)
+                else:
+                    detected_label = ocr_text.strip()
                 return role, score, "exact_tolerant", detected_label
     
     # Niveau 2 : fuzzy fallback (3e template inconnu)
@@ -368,7 +418,12 @@ def match_header(ocr_text: str, fuzzy_threshold: int = 75) -> Tuple[Optional[str
         for alias in aliases:
             score = fuzz.partial_ratio(norm, alias)
             if score > best_score:
-                best_role, best_score, best_label = role, score, ocr_text.strip()
+                best_role, best_score = role, score
+                # Normaliser uniquement si c'est la 2ème colonne (specification)
+                if role == "specification":
+                    best_label = _normalize_specification_label(ocr_text)
+                else:
+                    best_label = ocr_text.strip()
     
     if best_score >= fuzzy_threshold:
         return best_role, best_score, "fuzzy", best_label
