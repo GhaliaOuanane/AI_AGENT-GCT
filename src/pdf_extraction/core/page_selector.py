@@ -314,21 +314,3 @@ def select_target_pages(
             in_table_sequence = False
     
     return selected_pages
-            
-            # Détection de fin de tableau
-            page_is_end = _looks_like_end_of_table(text)
-            
-            # Capturer la page si elle fait partie du tableau
-            # Condition : contenu de tableau OU notes OU fin
-            if page_is_table_content or page_is_note or page_is_end:
-                selected_pages.append(page)
-                
-                # Si fin détectée, sortir du tableau
-                if page_is_end:
-                    in_table = False
-                continue
-            
-            # Page ne correspond à aucun critère : fin du tableau
-            in_table = False
-
-    return selected_pages
