@@ -201,59 +201,93 @@ def _has_keyword_lot(normalized_text: str) -> bool:
 # FONCTION PRINCIPALE D'ÉVALUATION
 # ============================================================================
 
-def evaluate_page(page, page_num: int, pdf_path=None) -> PageContext:
+def evaluate_page(page, page_num: int, pdf_path=None, ocr_text: Optional[str] = None) -> PageContext:
     """
     Évalue TOUTES les règles de détection pour une page (appelé UNE SEULE FOIS).
+    
+    LOGIQUE SIMPLIFIÉE:
+    - Page cible = tableau 3 colonnes + mot "lot" + mot "NB" présents
+    - Ignore le contenu textuel des en-têtes
     
     Args:
         page: Page PyMuPDF ou objet page avec .get_text()
         page_num: Numéro de page (0-indexed)
         pdf_path: Chemin du PDF (optionnel, pour debug)
+        ocr_text: Texte OCR pré-extrait (prioritaire sur page.get_text() si fourni)
     
     Returns:
         PageContext avec tous les résultats de détection
     """
     # Extraction et normalisation du texte
-    try:
-        raw_text = page.get_text() if hasattr(page, 'get_text') else str(page)
-    except Exception:
-        raw_text = ""
+    # Utiliser OCR text en priorité si fourni (pour scans)
+    if ocr_text is not None:
+        raw_text = ocr_text
+    else:
+        try:
+            raw_text = page.get_text() if hasattr(page, 'get_text') else str(page)
+        except Exception:
+            raw_text = ""
     
     normalized_text = _normalize_text(raw_text)
     
-    # Détection du modèle d'en-tête
-    # Ordre: tester la variante D'ABORD car plus spécifique ("exige" est unique)
-    # puis modele_1 standard, puis modele_2
-    detected_model = "unknown"
-    has_valid_header = False
+    # Pattern "lot" avec variantes: "lot 1", "lot n°1", "LOT 1", "Lot : 1"
+    # Le \d+ final évite les faux positifs comme "pilote" ou "ilot"
+    lot_pattern = re.compile(r"\blot\s*n?°?\s*:?\s*\d+", re.IGNORECASE)
+    has_lot = bool(lot_pattern.search(normalized_text))
     
-    # Test spécifique pour variant: chercher UNIQUEMENT "exige", pas "specification"
-    has_exige = bool(re.search(r"\bexige\b", normalized_text, re.IGNORECASE))
-    has_specification_word = bool(re.search(r"\bspec[il1][fj][il1][cf]at[io0ln]+\b", normalized_text, re.IGNORECASE))
+    # Pattern "NB" avec variantes: "NB", "NB:", "N.B", "N.B.", "N B", "nb :"
+    # Lookarounds pour éviter faux positifs comme "un bureau" ou "en bas"
+    nb_pattern = re.compile(
+        r"(?<![a-z0-9])n\.?\s?b\.?\s*:?(?![a-z0-9])",
+        re.IGNORECASE
+    )
+    has_nb = bool(nb_pattern.search(normalized_text))
     
-    if has_exige and _matches_model_1_variant(normalized_text):
-        detected_model = "modele_1_variant"
-        has_valid_header = True
-    elif has_specification_word and _matches_model_1(normalized_text):
-        detected_model = "modele_1"
-        has_valid_header = True
-    elif _matches_model_2(normalized_text):
-        detected_model = "modele_2"
-        has_valid_header = True
+    # TODO: Détecter tableau 3 colonnes via structure (pour l'instant supposé vrai)
+    has_3col_table = True  # Placeholder - vrai si détection grid ou mots-clés colonnes
     
-    # Extraction des noms d'en-têtes détectés
-    detected_headers = _extract_detected_headers(raw_text, normalized_text, detected_model)
+    # DEBUG: Logger les 3 conditions avec extraits de matching
+    lot_match = lot_pattern.search(normalized_text)
+    nb_match = nb_pattern.search(normalized_text)
     
-    # Détection des mots-clés
-    has_nb = _has_keyword_nb(normalized_text)
-    has_lot = _has_keyword_lot(normalized_text)
+    print(f"\n[DEBUG] ========== Page {page_num + 1} ==========")
+    print(f"  - Tableau 3col: {has_3col_table}")
+    print(f"  - Lot trouvé: {has_lot}" + (f" → '{lot_match.group()}' (pos {lot_match.start()}-{lot_match.end()})" if lot_match else ""))
+    print(f"  - NB trouvé: {has_nb}" + (f" → '{nb_match.group()}' (pos {nb_match.start()}-{nb_match.end()})" if nb_match else ""))
+    
+    if not has_lot or not has_nb:
+        # Afficher un extrait du texte pour diagnostic
+        text_preview = normalized_text[:400].replace('\n', ' | ')
+        print(f"  - Texte preview (400 premiers car): {text_preview}...")
+    
+    # Page cible si les critères sont remplis
+    has_valid_header = has_lot and has_nb and has_3col_table
+    
+    if has_valid_header:
+        print(f"  ✓✓✓ Page {page_num + 1} ACCEPTÉE comme page cible")
+    else:
+        raison = []
+        if not has_lot:
+            raison.append("pas de 'lot'")
+        if not has_nb:
+            raison.append("pas de 'NB'")
+        if not has_3col_table:
+            raison.append("pas de tableau 3col")
+        print(f"  ✗✗✗ Page {page_num + 1} REJETÉE ({', '.join(raison)})")
+    
+    # Headers génériques (noms exacts seront lus depuis la 1ère ligne du tableau)
+    detected_headers = {
+        "designation": "Colonne 1",
+        "specification": "Colonne 2",
+        "proposition": "Colonne 3"
+    }
     
     # Construction du contexte
     return PageContext(
         page_num=page_num,
         has_valid_header=has_valid_header,
-        detected_model=detected_model,
-        column_count=3,  # Toujours 3 colonnes dans nos modèles
+        detected_model="generic_3col",  # Modèle générique
+        column_count=3,
         detected_headers=detected_headers,
         has_nb_keyword=has_nb,
         has_lot_keyword=has_lot,

@@ -28,6 +28,12 @@ import sys
 sys.path.append(str(Path(__file__).parent))
 from pdf_extraction.utils.clean_ocr import clean_ocr_text
 
+# Import PageContext for type hints (Optional to avoid circular imports if needed)
+try:
+    from pdf_extraction.core.detection_rules import PageContext
+except ImportError:
+    PageContext = None  # Fallback if circular import
+
 
 # ============================================================================
 # VÉRIFICATION DE LA CONFIGURATION TESSERACT
@@ -547,20 +553,33 @@ def extract_column(pdf_path: str | Path, page_num: int, target_role: str = "spec
     return result
 
 
-def extract_structured_rows(pdf_path: str | Path) -> List[Dict]:
+def extract_structured_rows(pdf_path: str | Path, page_contexts: Optional[List] = None) -> List[Dict]:
     """
-    Extrait toutes les lignes structurées du PDF avec alignement des 3 colonnes.
+    Extrait les colonnes 1 et 2 du tableau (clé/valeur).
+    
+    FORMAT MINIMALISTE:
+    - Lit seulement colonnes 1 (clé) et 2 (valeur)
+    - Utilise OCR avec bounding boxes pour assignation correcte
+    - Chaque valeur passe par quality_analyzer pour marquage a_verifier
     
     Args:
         pdf_path: Chemin du fichier PDF
+        page_contexts: Liste de PageContext (depuis detection_rules.py)
     
     Returns:
-        Liste de dictionnaires structurés par ligne
+        Liste de dictionnaires {fichier, page, lot, cle, valeur, a_verifier}
     """
+    from pdf_extraction.core.quality_analyzer import analyze_value_quality
+    
     doc = fitz.open(pdf_path)
     results = []
     
     for page_num in range(doc.page_count):
+        # Récupérer le contexte pré-calculé
+        page_context = None
+        if page_contexts and page_num < len(page_contexts):
+            page_context = page_contexts[page_num]
+        
         # Étape 1: Rendu HD
         try:
             img_rgb = render_page(pdf_path, page_num, dpi=300)
@@ -569,99 +588,119 @@ def extract_structured_rows(pdf_path: str | Path) -> List[Dict]:
             print(f"[ERROR] Page {page_num}: Render failed - {e}")
             continue
         
-        # Étape 2: Détection de grille
+        # Étape 2: Détection de grille (pour frontières de colonnes)
         col_bounds, row_bounds = detect_table_grid(img_gray)
         
-        if len(col_bounds) < 4 or len(row_bounds) < 2:
-            print(f"[WARN] Page {page_num}: Grid not detected, using fallback")
-            # Fallback K-means
-            ocr_data = pytesseract.image_to_data(img_gray, output_type=pytesseract.Output.DICT)
-            ocr_words = [{'left': int(ocr_data['left'][i]), 'width': int(ocr_data['width'][i])}
-                         for i in range(len(ocr_data['text'])) if ocr_data['text'][i].strip()]
-            if ocr_words:
-                col_centers = fallback_column_detection(ocr_words)
+        if len(col_bounds) < 4:
+            print(f"[WARN] Page {page_num}: Grid not detected, using K-means fallback")
+            ocr_data_temp = pytesseract.image_to_data(img_gray, output_type=pytesseract.Output.DICT, lang='fra')
+            ocr_words_temp = [{'left': int(ocr_data_temp['left'][i]), 'width': int(ocr_data_temp['width'][i])}
+                              for i in range(len(ocr_data_temp['text'])) if ocr_data_temp['text'][i].strip()]
+            if ocr_words_temp:
+                col_centers = fallback_column_detection(ocr_words_temp)
                 col_bounds = sorted(col_centers)
-                row_bounds = [0, img_gray.shape[0]]
             else:
                 print(f"[ERROR] Page {page_num}: No OCR words for fallback")
                 continue
         
-        # Étape 3: OCR de la ligne d'en-tête
-        header_row_idx = 0
-        header_cells = []
-        for col_idx in range(len(col_bounds) - 1):
-            cell_bbox = (col_bounds[col_idx] + 5, col_bounds[col_idx + 1] - 5,
-                         row_bounds[header_row_idx] + 5, row_bounds[header_row_idx + 1] - 5)
-            cell_img = extract_cell_from_image(img_gray, cell_bbox)
-            header_text = ocr_cell(cell_img)
-            header_cells.append(header_text)
+        if len(col_bounds) < 3:  # Au moins 2 colonnes: 3 frontières minimum
+            print(f"[ERROR] Page {page_num}: Not enough column boundaries ({len(col_bounds)})")
+            continue
         
-        # Étape 4: Mapping sémantique des en-têtes
-        role_to_col_idx = {}
-        detected_headers = {}  # Stocker les noms détectés {role: detected_label}
-        modele_detecte = "unknown"
-        for idx, cell_text in enumerate(header_cells):
-            role, score, method, detected_label = match_header(cell_text)
-            if role:
-                role_to_col_idx[role] = idx
-                detected_headers[role] = detected_label
-                if method in ["exact", "exact_tolerant"]:
-                    # Déterminer le modèle basé sur le premier match exact
-                    norm_text = normalize(cell_text)
-                    if role == "designation":
-                        if norm_text == "designation":
-                            modele_detecte = "modele_1"
-                        elif norm_text == "composants de l offre":
-                            modele_detecte = "modele_2"
-                    elif role == "specification":
-                        if "exige" in norm_text or "preciser" in norm_text:
-                            modele_detecte = "modele_1_variant"
+        # Étape 3: OCR de TOUTE LA PAGE avec bounding boxes
+        ocr_data = pytesseract.image_to_data(img_gray, output_type=pytesseract.Output.DICT, lang='fra')
         
-        # Étape 5: OCR des cellules de données pour les 3 colonnes
-        for row_idx in range(1, len(row_bounds) - 1):
-            row_data = {
+        words = []
+        for i in range(len(ocr_data['text'])):
+            text = ocr_data['text'][i].strip()
+            if text:
+                words.append({
+                    'text': text,
+                    'left': int(ocr_data['left'][i]),
+                    'top': int(ocr_data['top'][i]),
+                    'width': int(ocr_data['width'][i]),
+                    'height': int(ocr_data['height'][i]),
+                    'conf': int(ocr_data['conf'][i])
+                })
+        
+        if not words:
+            print(f"[WARN] Page {page_num}: No OCR text detected")
+            continue
+        
+        # Étape 4: Assigner chaque mot à sa colonne selon position X
+        # col_bounds[0] = gauche, col_bounds[1] = séparateur col1|col2, col_bounds[2] = séparateur col2|col3
+        def assign_column(word_x_center: float) -> int:
+            """Retourne l'index de colonne pour un mot"""
+            if word_x_center < col_bounds[1]:
+                return 0  # Colonne 1
+            elif len(col_bounds) >= 3 and word_x_center < col_bounds[2]:
+                return 1  # Colonne 2
+            else:
+                return 2  # Colonne 3
+        
+        for word in words:
+            x_center = word['left'] + word['width'] / 2
+            word['column'] = assign_column(x_center)
+        
+        # Étape 5: Regrouper par ligne (tolérance Y: ±10px)
+        words_sorted = sorted(words, key=lambda w: (w['top'], w['left']))
+        
+        lines = []
+        current_line = []
+        y_tolerance = 10
+        
+        for word in words_sorted:
+            if not current_line:
+                current_line.append(word)
+            else:
+                if abs(word['top'] - current_line[0]['top']) <= y_tolerance:
+                    current_line.append(word)
+                else:
+                    lines.append(current_line)
+                    current_line = [word]
+        
+        if current_line:
+            lines.append(current_line)
+        
+        # Sauter la première ligne (en-têtes)
+        data_lines = lines[1:] if len(lines) > 1 else []
+        
+        # Détecter le numéro de lot depuis le texte de la page
+        lot_match = re.search(r"\blot\s+(\d+)", page_context.normalized_text if page_context else "", re.IGNORECASE)
+        lot_number = int(lot_match.group(1)) if lot_match else None
+        
+        # Étape 6: Construire les entrées clé/valeur
+        for line_words in data_lines:
+            # Regrouper par colonne
+            col_texts = {0: [], 1: [], 2: []}
+            for word in line_words:
+                col_texts[word['column']].append(word['text'])
+            
+            cle_text = ' '.join(col_texts[0])
+            valeur_text = ' '.join(col_texts[1])
+            
+            # Nettoyage OCR
+            cle_clean = clean_ocr_text(cle_text, enable_regex=True, enable_confusion=False) if cle_text else ""
+            valeur_clean = clean_ocr_text(valeur_text, enable_regex=True, enable_confusion=False) if valeur_text else ""
+            
+            # Ne garder que les lignes avec clé ET valeur
+            if not cle_clean or not valeur_clean:
+                continue
+            
+            # Analyse qualité de la valeur
+            quality = analyze_value_quality(valeur_clean)
+            
+            # Créer l'entrée minimaliste
+            entry = {
                 "fichier": Path(pdf_path).name,
                 "page": page_num + 1,
-                "lot": None,  # À détecter si possible
-                "modele_detecte": modele_detecte,
-                "designation": "",
-                "specification": "",
-                "proposition": "",
-                "confiance_ocr": {
-                    "designation": 0,
-                    "specification": 0,
-                    "proposition": 0
-                },
-                "methode_mapping_headers": "unknown",
-                "detected_headers": detected_headers  # Ajouter les noms détectés
+                "lot": lot_number,
+                "cle": cle_clean,
+                "valeur": valeur_clean,
+                "a_verifier": not quality["claire"]  # Inverser: claire=True => a_verifier=False
             }
             
-            # OCRiser chaque colonne si elle est mappée
-            for role in ["designation", "specification", "proposition"]:
-                if role in role_to_col_idx:
-                    col_idx = role_to_col_idx[role]
-                    cell_bbox = (col_bounds[col_idx] + 5, col_bounds[col_idx + 1] - 5,
-                                 row_bounds[row_idx] + 5, row_bounds[row_idx + 1] - 5)
-                    cell_img = extract_cell_from_image(img_gray, cell_bbox)
-                    cell_text = ocr_cell(cell_img)
-                    
-                    if cell_text:
-                        # Nettoyage OCR
-                        cleaned_text = clean_ocr_text(cell_text, enable_regex=True, enable_confusion=False)
-                        row_data[role] = cleaned_text
-                        # Score de confiance simplifié (longueur du texte)
-                        row_data["confiance_ocr"][role] = min(100, len(cleaned_text) * 5)
-            
-            # Déterminer la méthode de mapping
-            for idx, cell_text in enumerate(header_cells):
-                role, score, method, detected_label = match_header(cell_text)
-                if role and method in ["exact", "exact_tolerant"]:
-                    row_data["methode_mapping_headers"] = method
-                    break
-            
-            # Ajouter la ligne si elle a du contenu
-            if any(row_data[col] for col in ["designation", "specification", "proposition"]):
-                results.append(row_data)
+            results.append(entry)
         
         status = "OK" if results else "WARN"
         print(f"[{status}] Page {page_num + 1}/{doc.page_count}: {len([r for r in results if r['page'] == page_num + 1])} lignes extraites")
@@ -670,63 +709,21 @@ def extract_structured_rows(pdf_path: str | Path) -> List[Dict]:
     return results
 
 
-def to_json(results: List[Dict], output_path: str | Path = "data/output/extraction.json", use_detected_headers: bool = True) -> None:
+def to_json(results: List[Dict], output_path: str | Path = "data/output/extraction.json", use_detected_headers: bool = False) -> None:
     """
-    Sauvegarde les résultats en JSON structuré.
+    Sauvegarde les résultats en JSON minimaliste.
+    
+    FORMAT SIMPLIFIÉ: Liste de {fichier, page, lot, cle, valeur, a_verifier}
     
     Args:
-        results: Liste de dictionnaires structurés
+        results: Liste de dictionnaires extraits
         output_path: Chemin du fichier de sortie
-        use_detected_headers: Si True, REMPLACE les clés génériques par les noms de headers détectés
+        use_detected_headers: Ignoré (compatibilité legacy)
     """
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     
-    # Si demandé, REMPLACER les noms génériques par les noms détectés
-    if use_detected_headers:
-        processed_results = []
-        for row in results:
-            new_row = {}
-            
-            # Copier d'abord tous les champs qui ne sont pas des colonnes
-            for key, value in row.items():
-                if key not in ["designation", "specification", "proposition"]:
-                    new_row[key] = value
-            
-            # Si detected_headers existe, utiliser les noms détectés
-            if "detected_headers" in row and row["detected_headers"]:
-                detected = row["detected_headers"]
-                
-                # REMPLACER "designation" par le nom détecté
-                if "designation" in detected and detected["designation"]:
-                    header_name = detected["designation"]
-                    new_row[header_name] = row.get("designation", "")
-                else:
-                    new_row["designation"] = row.get("designation", "")
-                
-                # REMPLACER "specification" par le nom détecté
-                if "specification" in detected and detected["specification"]:
-                    header_name = detected["specification"]
-                    new_row[header_name] = row.get("specification", "")
-                else:
-                    new_row["specification"] = row.get("specification", "")
-                
-                # REMPLACER "proposition" par le nom détecté
-                if "proposition" in detected and detected["proposition"]:
-                    header_name = detected["proposition"]
-                    new_row[header_name] = row.get("proposition", "")
-                else:
-                    new_row["proposition"] = row.get("proposition", "")
-            else:
-                # Pas de detected_headers, garder les noms génériques
-                new_row["designation"] = row.get("designation", "")
-                new_row["specification"] = row.get("specification", "")
-                new_row["proposition"] = row.get("proposition", "")
-            
-            processed_results.append(new_row)
-        
-        results = processed_results
-    
+    # Les résultats sont déjà au format minimal, pas de transformation
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
     

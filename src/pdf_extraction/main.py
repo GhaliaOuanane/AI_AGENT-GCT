@@ -24,7 +24,20 @@ def _find_and_validate_input_pdfs() -> list[tuple[Path, str]]:
     if not input_dir.exists():
         raise FileNotFoundError(f"Dossier introuvable : {input_dir}")
 
-    pdf_files = sorted(input_dir.glob("*.pdf")) + sorted(input_dir.glob("*.PDF"))
+    # Collecter tous les PDF (avec dédoublonnage pour Windows insensible à la casse)
+    pdf_files_raw = list(input_dir.glob("*.pdf")) + list(input_dir.glob("*.PDF"))
+    
+    # Dédoublonner par chemin résolu (lowercase pour Windows)
+    seen_paths = set()
+    pdf_files = []
+    for pdf in pdf_files_raw:
+        resolved_lower = str(pdf.resolve()).lower()
+        if resolved_lower not in seen_paths:
+            seen_paths.add(resolved_lower)
+            pdf_files.append(pdf)
+    
+    pdf_files = sorted(pdf_files)
+    
     if not pdf_files:
         raise FileNotFoundError(f"Aucun PDF trouvé dans : {input_dir}")
     
@@ -154,25 +167,17 @@ def _process_single_pdf(input_path: Path, document_type: str, pdf_index: int, to
         results = extract_structured_rows(output_path, page_contexts=page_contexts)
         
         if results:
-            # Export JSON avec les noms de headers détectés
-            to_json(results, extraction_output, use_detected_headers=True)
+            # Export JSON minimaliste
+            to_json(results, extraction_output)
             
             # Résumé
             print(f"\n[OK] Extraction completee:")
             print(f"   Total entrees: {len(results)}")
             print(f"   Output: {extraction_output}")
             
-            # Afficher le modèle détecté
-            if results and "modele_detecte" in results[0]:
-                modele = results[0]["modele_detecte"]
-                print(f"   Modèle détecté: {modele}")
-            
-            # Afficher les headers détectés
-            if results and "detected_headers" in results[0]:
-                headers = results[0]["detected_headers"]
-                print(f"   Headers détectés:")
-                for role, name in headers.items():
-                    print(f"      - {role}: '{name}'")
+            # Statistiques de vérification
+            a_verifier_count = sum(1 for r in results if r.get("a_verifier", False))
+            print(f"   Valeurs a verifier: {a_verifier_count}/{len(results)}")
             
             return True
         else:

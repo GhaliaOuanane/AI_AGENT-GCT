@@ -294,8 +294,17 @@ def select_target_pages(
     in_table_sequence = False
     
     for page_num, page in enumerate(reader.pages):
+        # Extraire le texte (OCR si nécessaire)
+        ocr_text = None
+        if use_ocr:
+            # Pour les scans, extraire le texte via OCR
+            if pdf_path is None:
+                raise ValueError("pdf_path est requis quand use_ocr=True")
+            ocr_text = ocr_func(pdf_path, page_num, poppler_path=poppler_path)
+        
         # ÉVALUATION UNIQUE DES RÈGLES (source de vérité)
-        context = evaluate_page(page, page_num, pdf_path)
+        # Passer ocr_text pour que evaluate_page l'utilise au lieu de page.get_text()
+        context = evaluate_page(page, page_num, pdf_path, ocr_text=ocr_text)
         
         # Cas 1: En-tête de tableau détecté
         if context.has_valid_header:
