@@ -563,8 +563,8 @@ def extract_structured_rows(pdf_path: str | Path, page_contexts: Optional[List] 
     - Chaque valeur passe par quality_analyzer pour marquage a_verifier
     
     Args:
-        pdf_path: Chemin du fichier PDF
-        page_contexts: Liste de PageContext (depuis detection_rules.py)
+        pdf_path: Chemin du PDF FILTRÉ (pages_cibles.pdf)
+        page_contexts: Liste de PageContext correspondant aux pages du PDF filtré
     
     Returns:
         Liste de dictionnaires {fichier, page, lot, cle, valeur, a_verifier}
@@ -574,25 +574,32 @@ def extract_structured_rows(pdf_path: str | Path, page_contexts: Optional[List] 
     doc = fitz.open(pdf_path)
     results = []
     
-    for page_num in range(doc.page_count):
-        # Récupérer le contexte pré-calculé
+    # CORRECTION: Itérer sur les pages du PDF filtré (0, 1, 2, ..., N-1)
+    # et utiliser page_contexts[idx] pour récupérer les métadonnées
+    for pdf_page_idx in range(doc.page_count):
+        # Récupérer le contexte correspondant
         page_context = None
-        if page_contexts and page_num < len(page_contexts):
-            page_context = page_contexts[page_num]
+        if page_contexts and pdf_page_idx < len(page_contexts):
+            page_context = page_contexts[pdf_page_idx]
+        
+        # Le numéro de page ORIGINAL est dans page_context.page_num
+        original_page_num = page_context.page_num if page_context else pdf_page_idx
+        
+        print(f"\n[EXTRACTION] Page {pdf_page_idx + 1}/{doc.page_count} du PDF filtré (page {original_page_num + 1} du document original)")
         
         # Étape 1: Rendu HD
         try:
-            img_rgb = render_page(pdf_path, page_num, dpi=300)
+            img_rgb = render_page(pdf_path, pdf_page_idx, dpi=300)
             img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2GRAY)
         except Exception as e:
-            print(f"[ERROR] Page {page_num}: Render failed - {e}")
+            print(f"[ERROR] Page {pdf_page_idx}: Render failed - {e}")
             continue
         
         # Étape 2: Détection de grille (pour frontières de colonnes)
         col_bounds, row_bounds = detect_table_grid(img_gray)
         
         if len(col_bounds) < 4:
-            print(f"[WARN] Page {page_num}: Grid not detected, using K-means fallback")
+            print(f"[WARN] Page {pdf_page_idx + 1}: Grid not detected, using K-means fallback")
             ocr_data_temp = pytesseract.image_to_data(img_gray, output_type=pytesseract.Output.DICT, lang='fra')
             ocr_words_temp = [{'left': int(ocr_data_temp['left'][i]), 'width': int(ocr_data_temp['width'][i])}
                               for i in range(len(ocr_data_temp['text'])) if ocr_data_temp['text'][i].strip()]
@@ -600,11 +607,11 @@ def extract_structured_rows(pdf_path: str | Path, page_contexts: Optional[List] 
                 col_centers = fallback_column_detection(ocr_words_temp)
                 col_bounds = sorted(col_centers)
             else:
-                print(f"[ERROR] Page {page_num}: No OCR words for fallback")
+                print(f"[ERROR] Page {pdf_page_idx + 1}: No OCR words for fallback")
                 continue
         
         if len(col_bounds) < 3:  # Au moins 2 colonnes: 3 frontières minimum
-            print(f"[ERROR] Page {page_num}: Not enough column boundaries ({len(col_bounds)})")
+            print(f"[ERROR] Page {pdf_page_idx + 1}: Not enough column boundaries ({len(col_bounds)})")
             continue
         
         # Étape 3: OCR de TOUTE LA PAGE avec bounding boxes
@@ -624,7 +631,7 @@ def extract_structured_rows(pdf_path: str | Path, page_contexts: Optional[List] 
                 })
         
         if not words:
-            print(f"[WARN] Page {page_num}: No OCR text detected")
+            print(f"[WARN] Page {pdf_page_idx + 1}: No OCR text detected")
             continue
         
         # Étape 4: Assigner chaque mot à sa colonne selon position X
@@ -666,7 +673,8 @@ def extract_structured_rows(pdf_path: str | Path, page_contexts: Optional[List] 
         data_lines = lines[1:] if len(lines) > 1 else []
         
         # Détecter le numéro de lot depuis le texte de la page
-        lot_match = re.search(r"\blot\s+(\d+)", page_context.normalized_text if page_context else "", re.IGNORECASE)
+        # Utiliser le même pattern que detection_rules.py pour cohérence
+        lot_match = re.search(r"\blot\s*(?:n\s*°?\s*)?:?\s*(\d+)", page_context.normalized_text if page_context else "", re.IGNORECASE)
         lot_number = int(lot_match.group(1)) if lot_match else None
         
         # Étape 6: Construire les entrées clé/valeur
@@ -692,8 +700,8 @@ def extract_structured_rows(pdf_path: str | Path, page_contexts: Optional[List] 
             
             # Créer l'entrée minimaliste
             entry = {
-                "fichier": Path(pdf_path).name,
-                "page": page_num + 1,
+                "fichier": Path(pdf_path).stem.replace("pages_cibles_", "") + ".PDF",  # Nom original
+                "page": original_page_num + 1,  # Numéro de page dans le document original
                 "lot": lot_number,
                 "cle": cle_clean,
                 "valeur": valeur_clean,
@@ -702,8 +710,9 @@ def extract_structured_rows(pdf_path: str | Path, page_contexts: Optional[List] 
             
             results.append(entry)
         
-        status = "OK" if results else "WARN"
-        print(f"[{status}] Page {page_num + 1}/{doc.page_count}: {len([r for r in results if r['page'] == page_num + 1])} lignes extraites")
+        lines_extracted = len([r for r in results if r['page'] == original_page_num + 1])
+        status = "OK" if lines_extracted > 0 else "WARN"
+        print(f"[{status}] Page {pdf_page_idx + 1}: {lines_extracted} lignes extraites")
     
     doc.close()
     return results

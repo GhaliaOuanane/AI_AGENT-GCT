@@ -3,6 +3,8 @@ import pytesseract
 import json
 from datetime import datetime
 
+print("=== VERSION MARKER XYZ123 - DEBUT DU SCRIPT ===")
+
 from pdf_extraction.core.pdf_reader import open_pdf
 from pdf_extraction.core.pdf_writer import write_selected_pages
 from pdf_extraction.core.page_selector import select_target_pages

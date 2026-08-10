@@ -205,9 +205,10 @@ def evaluate_page(page, page_num: int, pdf_path=None, ocr_text: Optional[str] = 
     """
     Évalue TOUTES les règles de détection pour une page (appelé UNE SEULE FOIS).
     
-    LOGIQUE SIMPLIFIÉE:
-    - Page cible = tableau 3 colonnes + mot "lot" + mot "NB" présents
-    - Ignore le contenu textuel des en-têtes
+    LOGIQUE ROBUSTE ET CONTEXTUELLE:
+    - Page cible = présence de "lot n°X" en début de page/section avec structure tabulaire
+    - "NB" seul n'est PAS un critère suffisant (trop de bruit OCR)
+    - Position du "lot" dans le texte est critique (premiers 20% du texte)
     
     Args:
         page: Page PyMuPDF ou objet page avec .get_text()
@@ -219,7 +220,6 @@ def evaluate_page(page, page_num: int, pdf_path=None, ocr_text: Optional[str] = 
         PageContext avec tous les résultats de détection
     """
     # Extraction et normalisation du texte
-    # Utiliser OCR text en priorité si fourni (pour scans)
     if ocr_text is not None:
         raw_text = ocr_text
     else:
@@ -230,52 +230,151 @@ def evaluate_page(page, page_num: int, pdf_path=None, ocr_text: Optional[str] = 
     
     normalized_text = _normalize_text(raw_text)
     
-    # Pattern "lot" avec variantes: "lot 1", "lot n°1", "LOT 1", "Lot : 1"
-    # Le \d+ final évite les faux positifs comme "pilote" ou "ilot"
-    lot_pattern = re.compile(r"\blot\s*n?°?\s*:?\s*\d+", re.IGNORECASE)
-    has_lot = bool(lot_pattern.search(normalized_text))
+    # =====================================================================
+    # CRITÈRE PRINCIPAL: LOT en début de page/section
+    # =====================================================================
     
-    # Pattern "NB" avec variantes: "NB", "NB:", "N.B", "N.B.", "N B", "nb :"
-    # Lookarounds pour éviter faux positifs comme "un bureau" ou "en bas"
-    nb_pattern = re.compile(
-        r"(?<![a-z0-9])n\.?\s?b\.?\s*:?(?![a-z0-9])",
-        re.IGNORECASE
-    )
-    has_nb = bool(nb_pattern.search(normalized_text))
+    # Pattern "lot" avec numéro obligatoire
+    # Variantes supportées:
+    # - "lot 1", "lot 2" (espace simple)
+    # - "lot n°1", "lot n 01" (avec n ou n°)
+    # - "lot:1", "lot : 1" (avec deux-points)
+    # - "lot5", "LOT5" (collé, sans espace)
+    # - "lots :" (cas particulier: OCR confond "5" avec "S", devient "LOTS :")
+    # Évite faux positifs: "lotissement5" grâce à \b (frontière de mot)
     
-    # TODO: Détecter tableau 3 colonnes via structure (pour l'instant supposé vrai)
-    has_3col_table = True  # Placeholder - vrai si détection grid ou mots-clés colonnes
-    
-    # DEBUG: Logger les 3 conditions avec extraits de matching
+    # Pattern principal: lot + numéro
+    lot_pattern = re.compile(r"\blot\s*(?:n\s*°?\s*)?:?\s*(\d+)", re.IGNORECASE)
     lot_match = lot_pattern.search(normalized_text)
+    
+    # Pattern alternatif: "lots :" (erreur OCR fréquente: "LOT5" → "LOTS")
+    # STRICT: Exige le deux-points pour éviter "lots de matériels"
+    lots_colon_pattern = re.compile(r"\blots\s*:", re.IGNORECASE)
+    lots_match = lots_colon_pattern.search(normalized_text) if not lot_match else None
+    
+    has_lot_in_header = False
+    lot_number = None
+    lot_position_percent = 100.0
+    
+    if lot_match:
+        lot_number = int(lot_match.group(1))
+        # Position relative dans le texte (0-100%)
+        lot_position_percent = (lot_match.start() / max(len(normalized_text), 1)) * 100
+        
+        # Accepter le "lot" UNIQUEMENT s'il apparaît dans les premiers 20% du texte
+        # Cela élimine les mentions incidentes comme "lot 3" dans un article sur les paiements
+        has_lot_in_header = lot_position_percent <= 20.0
+    
+    elif lots_match:
+        # Cas "LOTS :" détecté (probablement erreur OCR de "LOT5:")
+        # Appliquer les mêmes critères de position
+        lot_position_percent = (lots_match.start() / max(len(normalized_text), 1)) * 100
+        has_lot_in_header = lot_position_percent <= 20.0
+        # Pas de numéro extrait, mais présence validée
+        lot_number = None
+    
+    # =====================================================================
+    # CRITÈRES SECONDAIRES: Présence d'indicateurs de structure tabulaire
+    # =====================================================================
+    
+    # Mots-clés de colonnes typiques (détection INDIVIDUELLE, pas en paire)
+    # Tolérant au bruit OCR: un seul mot-clé suffit si lot valide en tête
+    column_keywords = [
+        r"\bdesignation\b",
+        r"\bspecification\b",
+        r"\bproposition\b",
+        r"\bcaracteristiques?\s+techniques?\b",
+        r"\bcomposants?\s+(de\s+)?l\s*offre\b",
+        r"\bexige\b",  # "Exigé ou à préciser"
+        r"\ba\s+preciser\b"
+    ]
+    
+    # Compter combien de mots-clés sont présents
+    keyword_count = sum(
+        1 for pattern in column_keywords
+        if re.search(pattern, normalized_text, re.IGNORECASE)
+    )
+    
+    # Critères alternatifs pour détecter une structure tabulaire:
+    # Option A: Au moins 1 mot-clé de colonne SI lot valide en début (lot = garde-fou)
+    #           OU au moins 2 mots-clés si pas de lot (plus strict sans lot)
+    # Option B: Présence de séparateurs répétés (pipes, multiples espaces)
+    
+    # Si lot en début de section détecté, 1 seul mot-clé suffit (tolérance OCR)
+    # Sinon, exiger au moins 2 mots-clés (plus strict sans contexte lot)
+    min_keywords_required = 1 if has_lot_in_header else 2
+    has_sufficient_keywords = keyword_count >= min_keywords_required
+    
+    # Détection de séparateurs de colonnes (pipes, ou 3+ espaces consécutifs répétés)
+    has_separators = (
+        normalized_text.count('|') >= 3 or  # Au moins 3 pipes dans la page
+        len(re.findall(r'\s{3,}', normalized_text)) >= 5  # Au moins 5 zones de 3+ espaces
+    )
+    
+    # Structure tabulaire détectée si:
+    # - Mots-clés suffisants selon contexte (1 si lot, 2 sinon), OU
+    # - Présence de séparateurs visuels répétés
+    has_table_structure = has_sufficient_keywords or has_separators
+    
+    # =====================================================================
+    # NB: Détecté mais NON utilisé comme critère de décision
+    # =====================================================================
+    
+    nb_pattern = re.compile(r"(?<![a-z0-9])n\.?\s?b\.?\s*:?(?![a-z0-9])", re.IGNORECASE)
     nb_match = nb_pattern.search(normalized_text)
+    has_nb = bool(nb_match)
+    
+    # =====================================================================
+    # DÉCISION FINALE
+    # =====================================================================
+    
+    # Une page est cible SI:
+    # 1. "lot n°X" apparaît dans les premiers 20% du texte (début de section)
+    # 2. ET présence d'au moins un indicateur de structure tabulaire
+    
+    has_valid_header = has_lot_in_header and has_table_structure
+    
+    # =====================================================================
+    # LOGS DE DEBUG
+    # =====================================================================
     
     print(f"\n[DEBUG] ========== Page {page_num + 1} ==========")
-    print(f"  - Tableau 3col: {has_3col_table}")
-    print(f"  - Lot trouvé: {has_lot}" + (f" → '{lot_match.group()}' (pos {lot_match.start()}-{lot_match.end()})" if lot_match else ""))
-    print(f"  - NB trouvé: {has_nb}" + (f" → '{nb_match.group()}' (pos {nb_match.start()}-{nb_match.end()})" if nb_match else ""))
     
-    if not has_lot or not has_nb:
-        # Afficher un extrait du texte pour diagnostic
-        text_preview = normalized_text[:400].replace('\n', ' | ')
-        print(f"  - Texte preview (400 premiers car): {text_preview}...")
+    if lot_match:
+        print(f"  - Lot detecte: {lot_match.group()} (n {lot_number})")
+        print(f"    Position: {lot_position_percent:.1f}% du texte")
+        print(f"    En debut de section: {'OUI' if has_lot_in_header else 'NON (trop tard)'}")
+    else:
+        print(f"  - Lot detecte: NON")
     
-    # Page cible si les critères sont remplis
-    has_valid_header = has_lot and has_nb and has_3col_table
+    print(f"  - Structure tabulaire: {'OUI' if has_table_structure else 'NON'}")
+    if has_table_structure:
+        print(f"    Mots-cles colonnes trouves: {keyword_count}")
+        print(f"    Separateurs detectes: {'OUI' if has_separators else 'NON'}")
+    
+    if has_nb:
+        print(f"  - NB detecte: OUI (pos {nb_match.start()}) [INFO SEULEMENT]")
     
     if has_valid_header:
-        print(f"  ✓✓✓ Page {page_num + 1} ACCEPTÉE comme page cible")
+        print(f"  >>> Page {page_num + 1} ACCEPTEE comme page cible")
+        print(f"      Raison: Lot {lot_number} en debut + structure tabulaire")
     else:
-        raison = []
-        if not has_lot:
-            raison.append("pas de 'lot'")
-        if not has_nb:
-            raison.append("pas de 'NB'")
-        if not has_3col_table:
-            raison.append("pas de tableau 3col")
-        print(f"  ✗✗✗ Page {page_num + 1} REJETÉE ({', '.join(raison)})")
+        raisons = []
+        if not lot_match:
+            raisons.append("pas de 'lot nX'")
+        elif not has_lot_in_header:
+            raisons.append(f"'lot' trop tard dans le texte ({lot_position_percent:.0f}%)")
+        if not has_table_structure:
+            raisons.append(f"pas de structure tabulaire (mots-cles:{keyword_count}, separateurs:{has_separators})")
+        print(f"  XXX Page {page_num + 1} REJETEE")
+        print(f"      Raison: {' + '.join(raisons)}")
     
-    # Headers génériques (noms exacts seront lus depuis la 1ère ligne du tableau)
+    if not has_valid_header and (lot_match or has_nb):
+        # Preview pour debug des rejets avec indices
+        text_preview = normalized_text[:300].replace('\n', ' | ')
+        print(f"  - Preview: {text_preview}...")
+    
+    # Headers génériques
     detected_headers = {
         "designation": "Colonne 1",
         "specification": "Colonne 2",
@@ -286,11 +385,11 @@ def evaluate_page(page, page_num: int, pdf_path=None, ocr_text: Optional[str] = 
     return PageContext(
         page_num=page_num,
         has_valid_header=has_valid_header,
-        detected_model="generic_3col",  # Modèle générique
+        detected_model="generic_3col",
         column_count=3,
         detected_headers=detected_headers,
         has_nb_keyword=has_nb,
-        has_lot_keyword=has_lot,
+        has_lot_keyword=bool(lot_match),  # True si lot détecté, même si position incorrecte
         normalized_text=normalized_text
     )
 
