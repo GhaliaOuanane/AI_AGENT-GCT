@@ -169,9 +169,9 @@ def _process_single_pdf(input_path: Path, document_type: str, pdf_index: int, to
         results = extract_structured_rows(output_path, page_contexts=page_contexts)
         
         if results:
-            # Étape 3: Validation LLM (comparaison colonne 2 vs colonne 3) - TEMPORAIREMENT DÉSACTIVÉ POUR DIAGNOSTIC
-            # from pdf_extraction.validation.llm_validator import validate_extractions_with_llm
-            # results = validate_extractions_with_llm(results)
+            # Étape 3: Validation LLM
+            from pdf_extraction.validation.llm_validator import validate_extractions_with_llm
+            results = validate_extractions_with_llm(results)
             
             # Export JSON enrichi
             to_json(results, extraction_output)

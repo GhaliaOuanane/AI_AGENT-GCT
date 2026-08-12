@@ -553,7 +553,7 @@ def extract_column(pdf_path: str | Path, page_num: int, target_role: str = "spec
     return result
 
 
-def extract_structured_rows(pdf_path: str | Path, page_contexts: Optional[List] = None) -> List[Dict]:
+def _extract_structured_rows_legacy(pdf_path: str | Path, page_contexts: Optional[List] = None) -> List[Dict]:
     """
     Extrait les colonnes 1 et 2 du tableau (clé/valeur).
     
@@ -585,6 +585,14 @@ def extract_structured_rows(pdf_path: str | Path, page_contexts: Optional[List] 
         # Le numéro de page ORIGINAL est dans page_context.page_num
         original_page_num = page_context.page_num if page_context else pdf_page_idx
         
+        # DIAGNOSTIC DÉTAILLÉ pour page Lot 3 (page 13 du document = index 12)
+        is_debug_page = (original_page_num == 12)  # Page 13 du document
+        
+        if is_debug_page:
+            print(f"\n{'='*80}")
+            print(f"DIAGNOSTIC DÉTAILLÉ - PAGE LOT 3 (page {original_page_num + 1} du document)")
+            print(f"{'='*80}")
+        
         print(f"\n[EXTRACTION] Page {pdf_page_idx + 1}/{doc.page_count} du PDF filtré (page {original_page_num + 1} du document original)")
         
         # Étape 1: Rendu HD
@@ -597,6 +605,14 @@ def extract_structured_rows(pdf_path: str | Path, page_contexts: Optional[List] 
         
         # Étape 2: Détection de grille (pour frontières de colonnes)
         col_bounds, row_bounds = detect_table_grid(img_gray)
+        
+        # CORRECTION: Fusionner colonnes si sur-segmentation (plus de 4 limites = plus de 3 colonnes)
+        if len(col_bounds) > 4:
+            print(f"[WARN] Page {pdf_page_idx + 1}: Sur-segmentation détectée ({len(col_bounds)} limites), fusion en 3 colonnes")
+            # Utiliser K-means pour regrouper en 4 clusters (= 3 colonnes + 2 bords)
+            col_array = np.array(col_bounds).reshape(-1, 1)
+            kmeans = KMeans(n_clusters=4, n_init=10, random_state=42).fit(col_array)
+            col_bounds = sorted([int(center[0]) for center in kmeans.cluster_centers_])
         
         if len(col_bounds) < 4:
             print(f"[WARN] Page {pdf_page_idx + 1}: Grid not detected, using K-means fallback")
@@ -634,6 +650,12 @@ def extract_structured_rows(pdf_path: str | Path, page_contexts: Optional[List] 
             print(f"[WARN] Page {pdf_page_idx + 1}: No OCR text detected")
             continue
         
+        if is_debug_page:
+            print(f"\n[DEBUG] OCR BRUT: {len(words)} mots détectés")
+            print(f"[DEBUG] Premiers mots: {' '.join([w['text'] for w in words[:20]])}")
+            print(f"\n[DEBUG] Limites de colonnes détectées: {col_bounds}")
+            print(f"[DEBUG] Nombre de colonnes: {len(col_bounds) - 1}")
+        
         # Étape 4: Assigner chaque mot à sa colonne selon position X
         # col_bounds[0] = gauche, col_bounds[1] = séparateur col1|col2, col_bounds[2] = séparateur col2|col3
         def assign_column(word_x_center: float) -> int:
@@ -648,6 +670,16 @@ def extract_structured_rows(pdf_path: str | Path, page_contexts: Optional[List] 
         for word in words:
             x_center = word['left'] + word['width'] / 2
             word['column'] = assign_column(x_center)
+        
+        if is_debug_page:
+            # Afficher répartition par colonne
+            col_counts = {0: 0, 1: 0, 2: 0}
+            for w in words:
+                col_counts[w['column']] += 1
+            print(f"\n[DEBUG] Répartition mots par colonne:")
+            print(f"  Colonne 0 (Désignation): {col_counts[0]} mots")
+            print(f"  Colonne 1 (Spécification): {col_counts[1]} mots")
+            print(f"  Colonne 2 (Proposition): {col_counts[2]} mots")
         
         # Étape 5: Regrouper par ligne (tolérance Y: ±10px)
         words_sorted = sorted(words, key=lambda w: (w['top'], w['left']))
@@ -671,6 +703,21 @@ def extract_structured_rows(pdf_path: str | Path, page_contexts: Optional[List] 
         
         # Sauter la première ligne (en-têtes)
         data_lines = lines[1:] if len(lines) > 1 else []
+        
+        if is_debug_page:
+            print(f"\n[DEBUG] Total lignes détectées: {len(lines)}")
+            print(f"\n[DEBUG] En-tête (ligne 0): {' | '.join([w['text'] for w in lines[0]][:10]) if lines else 'N/A'}")
+            print(f"\n[DEBUG] Lignes de données (après skip header): {len(data_lines)}")
+            if data_lines:
+                print(f"\n[DEBUG] PREVIEW DES 5 PREMIÈRES LIGNES:")
+                for idx, line in enumerate(data_lines[:5], 1):
+                    col0 = ' '.join([w['text'] for w in line if w['column'] == 0])
+                    col1 = ' '.join([w['text'] for w in line if w['column'] == 1])
+                    col2 = ' '.join([w['text'] for w in line if w['column'] == 2])
+                    print(f"  Ligne {idx}:")
+                    print(f"    Col0 (Désignation): {col0[:50]}")
+                    print(f"    Col1 (Spécification): {col1[:50]}")
+                    print(f"    Col2 (Proposition): {col2[:50]}")
         
         # Détecter le numéro de lot depuis le texte de la page
         # Utiliser le même pattern que detection_rules.py pour cohérence
@@ -761,6 +808,90 @@ def extract_structured_rows(pdf_path: str | Path, page_contexts: Optional[List] 
         status = "OK" if lines_extracted > 0 else "WARN"
         print(f"[{status}] Page {pdf_page_idx + 1}: {lines_extracted} lignes extraites")
     
+    doc.close()
+    return results
+
+
+def _normalise_for_match(text: str) -> str:
+    return "".join(c for c in unicodedata.normalize("NFKD", text.lower()) if not unicodedata.combining(c))
+
+
+def _three_column_bounds(raw_bounds: List[int], words: List[Dict]) -> Optional[List[int]]:
+    """Choisit les quatre traits qui encadrent les trois en-t?tes du tableau."""
+    bounds = sorted(set(int(v) for v in raw_bounds))
+    anchors = {}
+    for word in words:
+        text = _normalise_for_match(word["text"])
+        if text.startswith("designation"):
+            anchors["designation"] = word["left"]
+        elif text.startswith("specification"):
+            anchors["specification"] = word["left"]
+        elif text.startswith("proposition"):
+            anchors["proposition"] = word["left"]
+    if len(anchors) == 3:
+        d, s, p = anchors["designation"], anchors["specification"], anchors["proposition"]
+        print(f"[DEBUG] Ancrages en-t?tes: {anchors}")
+        left = [v for v in bounds if v < d]
+        sep1 = [v for v in bounds if d < v < s]
+        sep2 = [v for v in bounds if s < v < p]
+        right = [v for v in bounds if v > p]
+        if left and sep1 and sep2 and right:
+            return [max(left), max(sep1), max(sep2), min(right)]
+    merged = merge_close(bounds, gap=80)
+    return merged[-4:] if len(merged) >= 4 else None
+
+
+def _ocr_grid_cell(image: np.ndarray, cols: List[int], rows: List[int], row: int, col: int) -> str:
+    margin = 8
+    cell = image[rows[row] + margin:rows[row + 1] - margin, cols[col] + margin:cols[col + 1] - margin]
+    return pytesseract.image_to_string(cell, lang="fra+eng", config="--psm 6").strip() if cell.size else ""
+
+
+def extract_structured_rows(pdf_path: str | Path, page_contexts: Optional[List] = None) -> List[Dict]:
+    """Extrait les lignes cellule par cellule, sans associer les mots selon Y."""
+    from pdf_extraction.core.quality_analyzer import analyze_value_quality
+    doc = fitz.open(pdf_path)
+    results = []
+    for filtered_idx in range(doc.page_count):
+        context = page_contexts[filtered_idx] if page_contexts and filtered_idx < len(page_contexts) else None
+        original_page = context.page_num if context else filtered_idx
+        print(f"\n[EXTRACTION] Page {filtered_idx + 1}/{doc.page_count} du PDF filtr? (page {original_page + 1} du document original)")
+        image = cv2.cvtColor(render_page(pdf_path, filtered_idx, dpi=300), cv2.COLOR_RGB2GRAY)
+        data = pytesseract.image_to_data(image, output_type=pytesseract.Output.DICT, lang="fra+eng", config="--psm 6")
+        words = [{"text": data["text"][i].strip(), "left": int(data["left"][i]), "top": int(data["top"][i])}
+                 for i in range(len(data["text"])) if data["text"][i].strip()]
+        raw_cols, rows = detect_table_grid(image)
+        cols = _three_column_bounds(raw_cols, words)
+        if not cols or len(rows) < 2:
+            print(f"[WARN] Page {filtered_idx + 1}: grille inexploitable")
+            continue
+
+        match = re.search(r"\blot\D*(\d+)", context.normalized_text if context else "", re.I)
+        lot = int(match.group(1)) if match else None
+        pending = None
+        for row in range(len(rows) - 1):
+            cells = [_ocr_grid_cell(image, cols, rows, row, col) for col in range(3)]
+            key, value, proposal = [clean_ocr_text(x, enable_regex=True, enable_confusion=False) if x else "" for x in cells]
+            key_norm = _normalise_for_match(key)
+            if row == 0 or not key:
+                continue
+            if key_norm.startswith("nb") or "fournisseurs doivent" in key_norm:
+                break
+            if not value:
+                if pending:
+                    pending["cle"] = (pending["cle"] + " " + key).strip()
+                continue
+            if pending:
+                results.append(pending)
+            quality = analyze_value_quality(value)
+            pending = {"fichier": Path(pdf_path).stem.replace("pages_cibles_", "") + ".PDF", "page": original_page + 1,
+                       "lot": lot, "cle": key, "valeur": value, "proposition": proposal,
+                       "confiance_ocr_proposition": 100 if proposal else 0, "debordement_detecte": False,
+                       "fiabilite_faible": not bool(proposal), "a_verifier": not quality["claire"]}
+        if pending:
+            results.append(pending)
+        count = sum(item["page"] == original_page + 1 for item in results)
+        print(f"[{'OK' if count else 'WARN'}] Page {filtered_idx + 1}: {count} lignes extraites")
     doc.close()
     return results
 

@@ -258,11 +258,11 @@ def validate_extractions_with_llm(extractions: List[Dict]) -> List[Dict]:
         
         # Log résultat
         statut_emoji = {
-            "conforme": "✓",
-            "non_conforme": "✗",
-            "a_verifier_manuellement": "?"
+            "conforme": "[OK]",
+            "non_conforme": "[X]",
+            "a_verifier_manuellement": "[?]"
         }
-        emoji = statut_emoji.get(validation_result["statut"], "?")
+        emoji = statut_emoji.get(validation_result["statut"], "[?]")
         print(f"    {emoji} {validation_result['statut'].upper()}: {validation_result['commentaire'][:80]}")
     
     print(f"\n[RÉSUMÉ VALIDATION]")
