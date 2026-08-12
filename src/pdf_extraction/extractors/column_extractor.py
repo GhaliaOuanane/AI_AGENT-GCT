@@ -677,35 +677,82 @@ def extract_structured_rows(pdf_path: str | Path, page_contexts: Optional[List] 
         lot_match = re.search(r"\blot\s*(?:n\s*°?\s*)?:?\s*(\d+)", page_context.normalized_text if page_context else "", re.IGNORECASE)
         lot_number = int(lot_match.group(1)) if lot_match else None
         
-        # Étape 6: Construire les entrées clé/valeur
+        # Étape 6: Construire les entrées clé/valeur avec confiance OCR et détection débordement
         for line_words in data_lines:
-            # Regrouper par colonne
+            # Regrouper par colonne avec scores de confiance
             col_texts = {0: [], 1: [], 2: []}
+            col_confidences = {0: [], 1: [], 2: []}
+            col_heights = {0: [], 1: [], 2: []}  # Pour détecter débordement vertical
+            
             for word in line_words:
-                col_texts[word['column']].append(word['text'])
+                col_idx = word['column']
+                col_texts[col_idx].append(word['text'])
+                col_confidences[col_idx].append(word['conf'])
+                col_heights[col_idx].append(word['height'])
             
             cle_text = ' '.join(col_texts[0])
             valeur_text = ' '.join(col_texts[1])
+            proposition_text = ' '.join(col_texts[2])  # Colonne 3 (manuscrit souvent)
             
             # Nettoyage OCR
             cle_clean = clean_ocr_text(cle_text, enable_regex=True, enable_confusion=False) if cle_text else ""
             valeur_clean = clean_ocr_text(valeur_text, enable_regex=True, enable_confusion=False) if valeur_text else ""
+            proposition_clean = clean_ocr_text(proposition_text, enable_regex=True, enable_confusion=False) if proposition_text else ""
+            
+            # Ne garder que les lignes avec clé ET valeur
+            if not cle_clean or not valeur_clean:
+                continue
+            # Regrouper par colonne avec scores de confiance
+            col_texts = {0: [], 1: [], 2: []}
+            col_confidences = {0: [], 1: [], 2: []}
+            col_heights = {0: [], 1: [], 2: []}  # Pour détecter débordement vertical
+            
+            for word in line_words:
+                col_idx = word['column']
+                col_texts[col_idx].append(word['text'])
+                col_confidences[col_idx].append(word['conf'])
+                col_heights[col_idx].append(word['height'])
+            
+            cle_text = ' '.join(col_texts[0])
+            valeur_text = ' '.join(col_texts[1])
+            proposition_text = ' '.join(col_texts[2])  # Colonne 3 (manuscrit souvent)
+            
+            # Nettoyage OCR
+            cle_clean = clean_ocr_text(cle_text, enable_regex=True, enable_confusion=False) if cle_text else ""
+            valeur_clean = clean_ocr_text(valeur_text, enable_regex=True, enable_confusion=False) if valeur_text else ""
+            proposition_clean = clean_ocr_text(proposition_text, enable_regex=True, enable_confusion=False) if proposition_text else ""
             
             # Ne garder que les lignes avec clé ET valeur
             if not cle_clean or not valeur_clean:
                 continue
             
-            # Analyse qualité de la valeur
+            # Calcul confiance moyenne colonne 3 (proposition manuscrite)
+            conf_col3 = int(np.mean(col_confidences[2])) if col_confidences[2] else 0
+            
+            # DÉTECTION DÉBORDEMENT: hauteur anormale ou longueur excessive
+            avg_height_col3 = np.mean(col_heights[2]) if col_heights[2] else 0
+            # Hauteur normale ~20-40px, débordement si >60px ou texte >200 caractères
+            has_overflow = (avg_height_col3 > 60) or (len(proposition_clean) > 200)
+            
+            # SEUIL CONFIANCE: <60 = peu fiable (manuscrit mal OCRisé)
+            LOW_CONFIDENCE_THRESHOLD = 60
+            is_low_confidence = conf_col3 < LOW_CONFIDENCE_THRESHOLD
+            
+            # Analyse qualité de la valeur (colonne 2)
             quality = analyze_value_quality(valeur_clean)
             
-            # Créer l'entrée minimaliste
+            # Créer l'entrée enrichie
             entry = {
-                "fichier": Path(pdf_path).stem.replace("pages_cibles_", "") + ".PDF",  # Nom original
-                "page": original_page_num + 1,  # Numéro de page dans le document original
+                "fichier": Path(pdf_path).stem.replace("pages_cibles_", "") + ".PDF",
+                "page": original_page_num + 1,
                 "lot": lot_number,
                 "cle": cle_clean,
                 "valeur": valeur_clean,
-                "a_verifier": not quality["claire"]  # Inverser: claire=True => a_verifier=False
+                "proposition": proposition_clean,  # Colonne 3
+                "confiance_ocr_proposition": conf_col3,  # Score 0-100
+                "debordement_detecte": has_overflow,
+                "fiabilite_faible": is_low_confidence,
+                "a_verifier": not quality["claire"]  # Analyse colonne 2 uniquement
             }
             
             results.append(entry)
@@ -720,9 +767,10 @@ def extract_structured_rows(pdf_path: str | Path, page_contexts: Optional[List] 
 
 def to_json(results: List[Dict], output_path: str | Path = "data/output/extraction.json", use_detected_headers: bool = False) -> None:
     """
-    Sauvegarde les résultats en JSON minimaliste.
+    Sauvegarde les résultats en JSON enrichi.
     
-    FORMAT SIMPLIFIÉ: Liste de {fichier, page, lot, cle, valeur, a_verifier}
+    FORMAT: Liste de {fichier, page, lot, cle, valeur, proposition, confiance_ocr_proposition, 
+                      debordement_detecte, fiabilite_faible, a_verifier, validation_llm}
     
     Args:
         results: Liste de dictionnaires extraits
@@ -732,7 +780,7 @@ def to_json(results: List[Dict], output_path: str | Path = "data/output/extracti
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     
-    # Les résultats sont déjà au format minimal, pas de transformation
+    # Les résultats sont déjà au format enrichi
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
     

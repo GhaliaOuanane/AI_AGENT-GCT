@@ -169,7 +169,11 @@ def _process_single_pdf(input_path: Path, document_type: str, pdf_index: int, to
         results = extract_structured_rows(output_path, page_contexts=page_contexts)
         
         if results:
-            # Export JSON minimaliste
+            # Étape 3: Validation LLM (comparaison colonne 2 vs colonne 3) - TEMPORAIREMENT DÉSACTIVÉ POUR DIAGNOSTIC
+            # from pdf_extraction.validation.llm_validator import validate_extractions_with_llm
+            # results = validate_extractions_with_llm(results)
+            
+            # Export JSON enrichi
             to_json(results, extraction_output)
             
             # Résumé
@@ -179,7 +183,15 @@ def _process_single_pdf(input_path: Path, document_type: str, pdf_index: int, to
             
             # Statistiques de vérification
             a_verifier_count = sum(1 for r in results if r.get("a_verifier", False))
-            print(f"   Valeurs a verifier: {a_verifier_count}/{len(results)}")
+            print(f"   Valeurs a verifier (qualite): {a_verifier_count}/{len(results)}")
+            
+            # Statistiques validation LLM
+            if results and "validation_llm" in results[0]:
+                statuts = [r.get("validation_llm", {}).get("statut", "inconnu") for r in results]
+                print(f"   Validation LLM:")
+                print(f"     - Conformes: {statuts.count('conforme')}")
+                print(f"     - Non conformes: {statuts.count('non_conforme')}")
+                print(f"     - A verifier manuellement: {statuts.count('a_verifier_manuellement')}")
             
             return True
         else:

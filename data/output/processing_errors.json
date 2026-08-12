@@ -26,5 +26,19 @@
     "error_at": "2026-07-16T10:01:43.554257",
     "error": "extract_structured_rows() got an unexpected keyword argument 'page_contexts'",
     "error_type": "TypeError"
+  },
+  {
+    "filename": "Discount Info.PDF",
+    "filepath": "data\\input\\Discount Info.PDF",
+    "error_at": "2026-08-10T10:44:59.862913",
+    "error": "'charmap' codec can't encode characters in position 2-4: character maps to <undefined>",
+    "error_type": "UnicodeEncodeError"
+  },
+  {
+    "filename": "Discount Info.PDF",
+    "filepath": "data\\input\\Discount Info.PDF",
+    "error_at": "2026-08-12T13:12:49.662930",
+    "error": "'charmap' codec can't encode character '\\u2717' in position 4: character maps to <undefined>",
+    "error_type": "UnicodeEncodeError"
   }
 ]
