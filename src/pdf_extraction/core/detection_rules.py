@@ -240,17 +240,19 @@ def evaluate_page(page, page_num: int, pdf_path=None, ocr_text: Optional[str] = 
     # - "lot n°1", "lot n 01" (avec n ou n°)
     # - "lot:1", "lot : 1" (avec deux-points)
     # - "lot5", "LOT5" (collé, sans espace)
-    # - "lots :" (cas particulier: OCR confond "5" avec "S", devient "LOTS :")
+    # - "lots specification" (cas particulier: OCR confond "5" avec "S", devient "LOTS : Spécification...")
+    #   Après normalisation, "LOTS :" devient "lots" donc on cherche "lots specification"
     # Évite faux positifs: "lotissement5" grâce à \b (frontière de mot)
     
     # Pattern principal: lot + numéro
     lot_pattern = re.compile(r"\blot\s*(?:n\s*°?\s*)?:?\s*(\d+)", re.IGNORECASE)
     lot_match = lot_pattern.search(normalized_text)
     
-    # Pattern alternatif: "lots :" (erreur OCR fréquente: "LOT5" → "LOTS")
-    # STRICT: Exige le deux-points pour éviter "lots de matériels"
-    lots_colon_pattern = re.compile(r"\blots\s*:", re.IGNORECASE)
-    lots_match = lots_colon_pattern.search(normalized_text) if not lot_match else None
+    # Pattern alternatif: "lots specification" (erreur OCR fréquente: "LOT5:" → "LOTS:")
+    # Après normalisation, les deux-points sont supprimés, donc chercher "lots" + "specification"
+    # STRICT: Évite "lots de matériels" car jamais suivi de "specification"
+    lots_spec_pattern = re.compile(r"\blots\s+specification\b", re.IGNORECASE)
+    lots_match = lots_spec_pattern.search(normalized_text) if not lot_match else None
     
     has_lot_in_header = False
     lot_number = None
@@ -344,6 +346,10 @@ def evaluate_page(page, page_num: int, pdf_path=None, ocr_text: Optional[str] = 
         print(f"  - Lot detecte: {lot_match.group()} (n {lot_number})")
         print(f"    Position: {lot_position_percent:.1f}% du texte")
         print(f"    En debut de section: {'OUI' if has_lot_in_header else 'NON (trop tard)'}")
+    elif lots_match:
+        print(f"  - Lot detecte: 'lots specification' (erreur OCR LOT5)")
+        print(f"    Position: {lot_position_percent:.1f}% du texte")
+        print(f"    En debut de section: {'OUI' if has_lot_in_header else 'NON (trop tard)'}")
     else:
         print(f"  - Lot detecte: NON")
     
@@ -411,14 +417,21 @@ def looks_like_table_content(normalized_text: str) -> bool:
     # Critère 1: Page TRÈS courte avec contenu numérique
     # MAIS exclure immédiatement si prose administrative détectée
     
-    # Exclure AVANT tout les documents administratifs
+    # Exclure AVANT tout les documents administratifs ET fiches techniques fournisseur
     is_admin_doc = bool(re.search(
         r"\b(?:article\s+\d+|signature|cachet|page\s+\d+|chapitre\s+\d+|table\s+des\s+matieres|manuel|guide|installation\s+du|configuration\s+du|deplacement\s+du|protocole\s+de|modalites|stipule|conditions\s+generales|specifie|precise)\b",
         normalized_text,
         re.IGNORECASE
     ))
     
-    if is_admin_doc:
+    # Détecter fiches techniques fournisseur (marques commerciales, noms de modèles)
+    is_vendor_spec_sheet = bool(re.search(
+        r"\b(?:kyocera|ecosys|hp|scanjet|dell|lenovo|asus|acer|samsung|epson|canon|brother|marque|modele|famille\s+de\s+produit|code\s+produit|nom\s+du\s+produit|fiche\s+technique)\b",
+        normalized_text,
+        re.IGNORECASE
+    ))
+    
+    if is_admin_doc or is_vendor_spec_sheet:
         return False
     
     is_short_numeric = line_count <= 8 and bool(re.search(r"\d", normalized_text))
